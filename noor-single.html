@@ -162,7 +162,7 @@ body.no-ornament .hadith::before{display:none}
 body.vertical .mt-body{grid-template-rows:none;grid-auto-rows:calc(var(--u)*3.3);align-content:start}
 .mt-row{font-size:calc(var(--u)*1.42);border-bottom:1px solid var(--panel-line);min-height:0;overflow:hidden}
 .mt-row:last-child{border-bottom:0}
-.mt-row .d{display:flex;justify-content:space-between;align-items:baseline;gap:.4em;min-width:0;white-space:nowrap;overflow:hidden;
+.mt-row .d{display:flex;justify-content:flex-start;align-items:baseline;gap:.4em;min-width:0;white-space:nowrap;overflow:hidden;
   padding-inline:calc(var(--u)*.4);font-size:min(calc(var(--u)*1.15),calc(100cqh / 30 * .5))}
 .mt-row .d b{font-weight:800;color:var(--ink)}
 .mt-row .d .dd{display:inline-flex;gap:.35em;align-items:baseline;direction:rtl}
@@ -177,6 +177,8 @@ body[data-light="1"] .mt-row .d .dh{color:#b3261e}
 .mt-row.today,.mt-row.today.fri{background:var(--accent-soft);font-weight:900;opacity:1;box-shadow:inset calc(var(--u)*.3) 0 0 var(--accent)}
 .mt-row.today .t.nx{color:var(--accent)}
 body.no-mt-hijri .mt-row .d .dh,body.no-mt-hijri .mt-row .d .dsep{display:none}
+body.no-mt-hijri .mt-row .d .dsw{display:inline}
+.mt-row .d b{min-width:var(--wdw,0);flex:none}
 
 /* ---------- شريط الإعلانات (يمكن إخفاؤه أو إبطاؤه أو جعله ثابتاً بتلاشٍ) ---------- */
 .ticker{display:flex;align-items:center;height:calc(var(--u)*4.6);margin:0 calc(var(--u)*-2);background:rgba(0,0,0,.28);
@@ -1957,10 +1959,18 @@ window.NOOR_CONFIG = {
       const cls = ["mt-row"]; if (i < 0) cls.push("past"); if (i === 0) cls.push("today"); if (d.getDay() === 5) cls.push("fri");
       const dd = N.num(pad(d.getDate()) + "/" + pad(d.getMonth() + 1) + "/" + d.getFullYear());
       const hh = N.num(hp.day + "/" + hp.month + "/" + hp.year);
-      html += `<div class="${cls.join(" ")}"><span class="d"><b>${wd.format(d)}</b><span class="dd"><span class="dh"><bdi dir="ltr">${hh}</bdi> هـ</span><i class="dsep">|</i><span class="dg2"><bdi dir="ltr">${dd}</bdi> م</span></span></span>` +
+      html += `<div class="${cls.join(" ")}"><span class="d"><b>${wd.format(d)}</b><i class="dsep dsw">|</i><span class="dd"><span class="dh"><bdi dir="ltr">${hh}</bdi> هـ</span><i class="dsep">|</i><span class="dg2"><bdi dir="ltr">${dd}</bdi> م</span></span></span>` +
         N.KEYS.map(k => `<span class="t" data-k="${k}">${N.fmtMin(m[k]).t}</span>`).join("") + "</div>";
     }
     $("mtBody").innerHTML = html;
+    const fitWd = () => {
+      const bs = Array.from(document.querySelectorAll("#mtBody .d b")); if (!bs.length) return;
+      bs.forEach(b => (b.style.minWidth = "0"));
+      const em = Math.max(...bs.map(b => b.getBoundingClientRect().width / (parseFloat(getComputedStyle(b).fontSize) || 1)));
+      bs.forEach(b => (b.style.minWidth = ""));
+      $("mtBody").style.setProperty("--wdw", (em + 0.05).toFixed(2) + "em");
+    };
+    fitWd(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitWd);
   };
 
   /* ---------- تلاشٍ عند التبديل ---------- */
