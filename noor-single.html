@@ -139,18 +139,14 @@ body.no-ornament .hadith::before{display:none}
 
 /* ---------- بطاقات المواقيت ---------- */
 .prayers{grid-area:prayers;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:calc(var(--u)*1.1);transition:opacity var(--fade) ease}
-.pcard{background:var(--panel);border:1px solid var(--panel-line);border-radius:calc(var(--u)*1.8);padding:calc(var(--u)*1.1) calc(var(--u)*1.2) calc(var(--u)*1.2);
-  display:flex;flex-direction:column;gap:calc(var(--u)*.45);position:relative;transition:transform .3s,box-shadow .3s,opacity .3s}
-.pname{font-family:var(--font-head);font-size:calc(var(--u)*3);text-align:center;line-height:1.2}
-.prow{display:flex;justify-content:space-between;align-items:baseline;gap:.4em}
-.plabel{font-size:calc(var(--u)*1.6);color:var(--ink);font-weight:700;white-space:nowrap}
-.ptime{font-family:var(--font-clock);direction:ltr;font-weight:900;font-size:calc(var(--u)*4);line-height:1.15;white-space:nowrap}
-.ptime .ap{font-size:.4em;margin-inline-start:.18em;font-weight:700;opacity:.85}
-.prow.iq .plabel{color:var(--accent);font-weight:700}
+.pcard{background:var(--panel);border:1px solid var(--panel-line);border-radius:calc(var(--u)*1.8);padding:calc(var(--u)*1.1) calc(var(--u)*.8) calc(var(--u)*1.2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*.5);position:relative;container-type:inline-size;transition:transform .3s,box-shadow .3s,opacity .3s}
+.pname{font-family:var(--font-head);font-size:min(calc(var(--u)*3.8),15cqw);text-align:center;line-height:1.2;white-space:nowrap;max-width:100%}
+.pgapn{font-family:var(--font-ui,inherit);font-size:.62em;font-weight:800;color:var(--accent);margin-inline-start:.35em}
+.prow{display:flex;justify-content:center;align-items:baseline;max-width:100%}
+.ptime{font-family:var(--font-clock);direction:ltr;font-weight:900;font-size:min(calc(var(--u)*5.6),20cqw);line-height:1.12;white-space:nowrap;max-width:100%}
+.ptime .ap{font-size:.38em;margin-inline-start:.15em;font-weight:700;opacity:.85}
 .prow.iq .ptime{color:var(--accent)}
-.prow.single{justify-content:center}
-.prow.single .ptime{font-size:calc(var(--u)*4)}
-.pgap{text-align:center;font-size:calc(var(--u)*1.75);font-weight:700;color:var(--ink);min-height:1.3em}
 .pcard.next{border:2px solid var(--accent);background:var(--accent-soft);box-shadow:0 .8em 2.2em -1em var(--accent);transform:translateY(calc(var(--u)*-.35))}
 .pcard.next .pname{color:var(--accent)}
 .pcard.next::after{content:"التالية";position:absolute;top:calc(var(--u)*-1.05);inset-inline:0;margin:auto;width:max-content;background:var(--accent);color:var(--on-accent);
@@ -231,6 +227,11 @@ body.ak-mode .hadith,body.ak-mode .monthtbl,body.ak-mode .prayers{visibility:hid
 .ak-bar{width:60%;height:calc(var(--u)*.4);background:var(--panel-line);border-radius:99px;overflow:hidden}
 .ak-bar i{display:block;height:100%;width:100%;background:var(--accent);border-radius:99px;transition:width 1s linear}
 .ak-idx{font-size:calc(var(--u)*1.6);color:var(--ink-dim)}
+.ak-cnt{display:none;font-family:var(--font-clock);font-weight:900;font-size:calc(var(--u)*9);direction:ltr;line-height:1;color:var(--accent)}
+.ak-cnt.warn{color:#ff6a55}
+.ak-list.one{column-count:1 !important;display:flex;flex-direction:column;justify-content:center;text-align:center}
+.ak-list.one .aki{display:none;margin:0}.ak-list.one .aki.on{display:block}
+.iqgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 
 /* عدّاد الإقامة: يملأ بطاقة الآيات كاملة بخلفية تقدّم متحرّكة */
 .hd-iq{display:none}
@@ -819,6 +820,7 @@ window.NOOR_CONFIG = {
     <div class="ak-list" id="akList"></div>
     <div class="ak-foot">
       <div class="ak-bar"><i id="akBar"></i></div>
+      <div class="ak-cnt" id="akCnt"></div>
       <div class="ak-idx" id="akIdx"></div>
     </div>
   </div>
@@ -897,10 +899,12 @@ window.NOOR_CONFIG = {
     <!-- ٢) الأذان والإقامة والأذكار -->
     <div class="spanel" data-panel="prayer">
       <h3>الأذان والإقامة</h3>
-      <div class="field"><label>الدقائق بين الأذان والإقامة: فجر، ظهر، عصر، مغرب، عشاء</label>
-        <input type="text" data-k="iqama" data-t="list" placeholder="25,20,20,10,20" dir="ltr"></div>
+      <label class="lbl">الدقائق بين الأذان والإقامة</label>
+      <div class="iqgrid"><div class="field"><label>الفجر</label><select class="iqsel" data-t="num" data-k="iqama.0"></select></div><div class="field"><label>الظهر</label><select class="iqsel" data-t="num" data-k="iqama.1"></select></div><div class="field"><label>العصر</label><select class="iqsel" data-t="num" data-k="iqama.2"></select></div><div class="field"><label>المغرب</label><select class="iqsel" data-t="num" data-k="iqama.3"></select></div><div class="field"><label>العشاء</label><select class="iqsel" data-t="num" data-k="iqama.4"></select></div><div class="field"><label>الشروق</label><select class="iqsel" data-t="num" data-k="shuruqIqama"></select></div></div>
       <div class="row2">
-        <div class="field"><label>مدة شاشة الأذان (دقائق)</label><input type="number" min="0" max="10" step="0.5" data-k="adhanDur"></div>
+        <label class="check"><input type="checkbox" data-k="shuruqScreen"><span>عرض حديثي النهي من الشروق إلى إقامته</span></label>
+      <div class="field"><label>التبديل بين الحديثين كل (ثانية)</label><input type="number" min="5" max="300" data-k="shuruqSec"></div>
+      <div class="field"><label>مدة شاشة الأذان (دقائق)</label><input type="number" min="0" max="10" step="0.5" data-k="adhanDur"></div>
         <div class="field"><label>مدة رسالة «أقيموا الصلاة» (ثوانٍ)</label><input type="number" min="0" max="120" data-k="iqamaMsgSec"></div>
       </div>
       <label class="check"><input type="checkbox" data-k="showIqamaScreen"><span>عدّاد الإقامة بعد شاشة الأذان</span></label>
@@ -940,6 +944,7 @@ window.NOOR_CONFIG = {
         <button class="btn ghost sm" data-preview="iqamaInline" type="button">عدّاد الإقامة بالبطاقة</button>
         <button class="btn ghost sm" data-preview="iqamaWait" type="button">عدّاد الإقامة (كامل)</button>
         <button class="btn ghost sm" data-preview="iqamaNow" type="button">أقيموا الصلاة</button>
+        <button class="btn ghost sm" data-preview="shuruq" type="button">شاشة الشروق</button>
         <button class="btn ghost sm" data-preview="black" type="button">شاشة الصلاة</button>
         <button class="btn ghost sm" data-preview="adhkar:fajr" type="button">أذكار الفجر</button>
         <button class="btn ghost sm" data-preview="adhkar:dhuhr" type="button">أذكار الظهر</button>
@@ -1177,7 +1182,7 @@ window.NOOR_CONFIG = {
     method: "makkah", fajrAngle: 18.5, ishaAngle: 17, asrFactor: 1, adjust: [0, 0, 0, 0, 0, 0],
     hijriAdj: 0, imsakOffset: 10,
     manualOn: false, manual: ["", "", "", "", "", ""],
-    iqama: [25, 20, 20, 10, 20], adhanDur: 3, showIqamaScreen: true, iqamaMsgSec: 25, iqamaInline: true, iqamaFullSec: 120,
+    iqama: [25, 20, 20, 10, 20], shuruqIqama: 15, shuruqScreen: true, shuruqSec: 30, adhanDur: 3, showIqamaScreen: true, iqamaMsgSec: 25, iqamaInline: true, iqamaFullSec: 120,
     jumua: "", jumuaIqama: 20,
     salat: { black: true, dur: 10, countdown: true, bright: 45 },
     adhkar: { on: true, afterMin: 10, maxMin: 5, slideSec: 20, prayers: [true, true, true, true, true], morningEvening: true },
@@ -1346,7 +1351,7 @@ window.NOOR_CONFIG = {
     const items = KEYS.map(key => {
       let min = mins[key], name = NAMES[key], isJumua = false;
       const idx = ["fajr", "dhuhr", "asr", "maghrib", "isha"].indexOf(key);
-      let iq = idx >= 0 ? Math.max(0, +S.iqama[idx] || 0) : null;
+      let iq = idx >= 0 ? Math.max(0, +S.iqama[idx] || 0) : key === "sunrise" ? Math.max(0, +(S.shuruqIqama ?? 15) || 0) : null;
       if (key === "dhuhr" && friday) {
         const jm = parseHM(S.jumua);
         if (jm != null) { min = jm; name = "الجمعة"; isJumua = true; iq = Math.max(0, +S.jumuaIqama || 0); }
@@ -1408,6 +1413,8 @@ window.NOOR_CONFIG = {
       else return previewScreen(nowMs);
     }
     const all = N.allItems(nowMs);
+    const sr = all.find(x => x.key === "sunrise" && x.ms <= nowMs && nowMs < x.iqamaMs);
+    if (sr && S.shuruqScreen) return { type: "shuruq", p: sr, leftSec: (sr.iqamaMs - nowMs) / 1000, elapsedSec: (nowMs - sr.ms) / 1000, totalSec: sr.iqamaMin * 60 };
     // أحدث صلاة (غير الشروق) بدأت
     let p = null;
     for (let i = all.length - 1; i >= 0; i--) { if (all[i].ms <= nowMs && all[i].key !== "sunrise") { p = all[i]; break; } }
@@ -1449,6 +1456,7 @@ window.NOOR_CONFIG = {
       case "iqamaWait": return { type: "iqamaWait", p, leftSec: Math.max(0, 125 - el) };
       case "iqamaNow": return { type: "iqamaNow", p };
       case "black": return { type: "black", p, leftSec: Math.max(0, +S_dur() * 60 - el) };
+      case "shuruq": { const sp = all.filter(x => x.key === "sunrise").sort((a, b) => Math.abs(a.ms - nowMs) - Math.abs(b.ms - nowMs))[0] || next, tot = Math.max(1, (sp.iqamaMin || 15) * 60); return { type: "shuruq", p: sp, leftSec: Math.max(0, tot - el), elapsedSec: el, totalSec: tot }; }
       case "adhkar": { const plan = N.adhkarPlan(key); return { type: "adhkar", p, plan, elapsedSec: el, totalSec: 60 }; }
     }
     return { type: "none" };
@@ -1920,11 +1928,10 @@ window.NOOR_CONFIG = {
     row.style.gridTemplateColumns = document.body.classList.contains("vertical") || document.body.classList.contains("compact") ? "" : `repeat(${items.length},minmax(0,1fr))`;
     row.innerHTML = items.map(p => {
       if (p.iqamaMin == null) return `<div class="pcard" data-key="${p.key}"><div class="pname">${p.name}</div>
-        <div class="prow single"><span class="ptime">${timeHTML(p.min)}</span></div><div class="pgap">&nbsp;</div></div>`;
-      return `<div class="pcard" data-key="${p.key}"><div class="pname">${p.name}</div>
-        <div class="prow"><span class="plabel">الأذان</span><span class="ptime">${timeHTML(p.min)}</span></div>
-        <div class="prow iq"><span class="plabel">الإقامة</span><span class="ptime">${timeHTML(p.min + p.iqamaMin)}</span></div>
-        <div class="pgap">بينهما ${N.num(p.iqamaMin)} د</div></div>`;
+        <div class="prow"><span class="ptime">${timeHTML(p.min)}</span></div></div>`;
+      return `<div class="pcard" data-key="${p.key}"><div class="pname">${p.name}<span class="pgapn">${N.num(p.iqamaMin)}د</span></div>
+        <div class="prow"><span class="ptime">${timeHTML(p.min)}</span></div>
+        <div class="prow iq"><span class="ptime">${timeHTML(p.min + p.iqamaMin)}</span></div></div>`;
     }).join("");
   };
   N.highlight = function (next, nowMs) {
@@ -1992,11 +1999,11 @@ window.NOOR_CONFIG = {
     const list = $("akList"), u = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--u")) || 10;
     if (!list.clientHeight) return;
     const ok = () => list.scrollWidth <= list.clientWidth + 1 && list.scrollHeight <= list.clientHeight + 1;
-    const cands = list.clientWidth > u * 70 ? [2, 3] : [1, 2];
+    const one = list.classList.contains("one"), cands = one ? [1] : list.clientWidth > u * 70 ? [2, 3] : [1, 2];
     let best = { n: cands[0], px: u * 1.1 };
     cands.forEach(n => {
       list.style.columnCount = n;
-      let lo = u * 1.1, hi = u * 3.6;
+      let lo = u * 1.1, hi = one ? u * 5 : u * 3.6;
       list.style.fontSize = hi + "px";
       if (!ok()) { while (hi - lo > 0.5) { const mid = (hi + lo) / 2; list.style.fontSize = mid + "px"; if (ok()) lo = mid; else hi = mid; } } else lo = hi;
       if (lo > best.px || best.px === u * 1.1) best = lo >= best.px ? { n, px: lo } : best;
@@ -2088,7 +2095,11 @@ window.NOOR_CONFIG = {
 
   /* ---------- الشاشات الكاملة ---------- */
   const OVS = ["ovGen", "ovBlack", "ovAdhkar"];
-  let curType = "none", curSlide = -1, curKey = "";
+  let curType = "none", curSlide = -1, curKey = "", shSlide = -1;
+  const SHURUQ_TEXTS = [
+    { x: "عمرو بن عبسة قال: قلت: يا نبي الله أخبرني عن الصلاة، فقال: «صَلِّ صَلَاةَ الصُّبْحِ، ثُمَّ أَقْصِرْ عَنِ الصَّلَاةِ حَتَّى تَطْلُعَ الشَّمْسُ حَتَّى تَرْتَفِعَ، فَإِنَّهَا تَطْلُعُ حِينَ تَطْلُعُ بَيْنَ قَرْنَيْ شَيْطَانٍ، وَحِينَئِذٍ يَسْجُدُ لَهَا الْكُفَّارُ، ثُمَّ صَلِّ فَإِنَّ الصَّلَاةَ مَشْهُودَةٌ مَحْضُورَةٌ حَتَّى يَسْتَقِلَّ الظِّلُّ بِالرُّمْحِ»", s: "رواه مسلم" },
+    { x: "عن عقبة بن عامر الجهني قال: «ثلاثُ ساعاتٍ كانَ رسولُ اللَّهِ صلَّى اللَّهُ عليهِ وسلَّمَ يَنهانا أن نصلِّيَ فيهنَّ، أو نقبُرَ فيهنَّ مَوتانا: حينَ تطلعُ الشَّمسُ بازغةً حتَّى ترتفعَ، وحينَ يقومُ قائمُ الظَّهيرةِ حتَّى تميلَ، وحينَ تضيَّفُ للغُروبِ حتَّى تغرُبَ»", s: "رواه مسلم" },
+  ];
   const showOv = id => OVS.forEach(x => $(x).classList.toggle("show", x === id));
   const DUA = "اللهم ربَّ هذه الدعوة التامة، والصلاة القائمة، آتِ محمداً الوسيلة والفضيلة، وابعثه مقاماً محموداً الذي وعدته";
   const timesLine = p => `<span>الأذان<b>${N.fmtMin(p.min).t} ${N.fmtMin(p.min).ap}</b></span><span>الإقامة<b>${N.fmtMin(p.min + p.iqamaMin).t} ${N.fmtMin(p.min + p.iqamaMin).ap}</b></span>`;
@@ -2102,7 +2113,7 @@ window.NOOR_CONFIG = {
 
   N.renderScreen = function (scr, nowMs) {
     const type = scr.type, hadEl = $("hadith");
-    document.body.classList.toggle("ak-mode", type === "adhkar" || type === "adhan" || type === "iqamaWait" || type === "iqamaNow");
+    document.body.classList.toggle("ak-mode", type === "adhkar" || type === "shuruq" || type === "adhan" || type === "iqamaWait" || type === "iqamaNow");
     if (type !== "iqamaInline" && hadEl.classList.contains("iq-on")) { hadEl.classList.remove("iq-on"); N.refitText(); }
     if (type === "none") { if (curType !== "none") { showOv(null); curType = "none"; curSlide = -1; N.refitText(); } return; }
     const p = scr.p, S = N.S;
@@ -2138,9 +2149,24 @@ window.NOOR_CONFIG = {
       $("bkCount").textContent = S.salat.countdown ? N.fmtCountdown(scr.leftSec) : "";
       $("bkLabel").style.display = $("bkCount").style.display = S.salat.countdown ? "" : "none";
       showOv("ovBlack");
+    } else if (type === "shuruq") {
+      const list = $("akList");
+      if (curType !== "shuruq") {
+        $("akHead").textContent = "وقت النهي عن الصلاة بعد الشروق"; curKey = "shuruq"; shSlide = -1;
+        list.classList.add("one");
+        list.innerHTML = SHURUQ_TEXTS.map(t => `<div class="aki"><div class="akx">${t.x}</div><div class="akm">${t.s}</div></div>`).join("");
+        $("akCnt").style.display = "block";
+        showOv("ovAdhkar"); placeOv("ovAdhkar");
+      } else showOv("ovAdhkar");
+      const si = Math.floor(scr.elapsedSec / Math.max(5, +S.shuruqSec || 30)) % SHURUQ_TEXTS.length;
+      if (si !== shSlide) { shSlide = si; Array.from(list.children).forEach((c, i) => c.classList.toggle("on", i === si)); fitAdhkar(); }
+      $("akCnt").textContent = N.fmtCountdown(scr.leftSec); $("akCnt").classList.toggle("warn", scr.leftSec <= 60);
+      $("akBar").style.width = Math.min(100, (scr.leftSec / scr.totalSec) * 100) + "%";
+      $("akIdx").textContent = "المتبقي على انتهاء وقت النهي وإقامة صلاة الإشراق";
     } else if (type === "adhkar") {
       const plan = scr.plan;
       if (curType !== "adhkar" || curKey !== p.key) {
+        $("akList").classList.remove("one"); $("akList").style.columnCount = ""; $("akCnt").style.display = "none";
         $("akHead").textContent = plan.title; curKey = p.key;
         const cut = x => { const i = (x || "").indexOf(" — "); return i > 0 ? x.slice(0, i) : (x || ""); };
         $("akList").innerHTML = plan.slides.map(sl => {
@@ -2208,6 +2234,8 @@ window.NOOR_CONFIG = {
     all(".fontsel").forEach(s => (s.innerHTML = fo));
     const so = N.Sound.options().map(o => `<option value="${o.key}">${o.label}</option>`).join("");
     all(".sndsel").forEach(s => (s.innerHTML = so));
+    const io = Array.from({ length: 91 }, (_, i) => `<option value="${i}">${i} د</option>`).join("");
+    all(".iqsel").forEach(s => (s.innerHTML = io));
     // سمات
     $("themeChips").innerHTML = Object.entries(C.THEMES).map(([k, t]) => {
       const bg = t.g.length > 2 ? `linear-gradient(160deg,${t.g.join(",")})` : `linear-gradient(160deg,${t.g[0]},${t.g[1]})`;
@@ -2438,7 +2466,7 @@ window.NOOR_CONFIG = {
     all("[data-preview]").forEach(b => (b.onclick = () => {
       const [type, key] = b.dataset.preview.split(":"), now = N.nowMs();
       if (type === "stop") { N.preview = null; return; }
-      N.preview = { type, key: key || "auto", start: now, until: now + (type === "adhkar" ? 60000 : 20000) };
+      N.preview = { type, key: key || "auto", start: now, until: now + (type === "adhkar" || type === "shuruq" ? 60000 : 20000) };
       close();
     }));
 
