@@ -139,12 +139,12 @@ body.no-ornament .hadith::before{display:none}
 
 /* ---------- بطاقات المواقيت ---------- */
 .prayers{grid-area:prayers;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:calc(var(--u)*1.1);transition:opacity var(--fade) ease}
-.pcard{background:var(--panel);border:1px solid var(--panel-line);border-radius:calc(var(--u)*1.8);padding:calc(var(--u)*1.1) calc(var(--u)*.8) calc(var(--u)*1.2);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*.5);position:relative;container-type:inline-size;transition:transform .3s,box-shadow .3s,opacity .3s}
-.pname{font-family:var(--font-head);font-size:min(calc(var(--u)*3.8),15cqw);text-align:center;line-height:1.2;white-space:nowrap;max-width:100%}
+.pcard{background:var(--panel);border:1px solid var(--panel-line);border-radius:calc(var(--u)*1.8);padding:calc(var(--u)*1.9) calc(var(--u)*.7) calc(var(--u)*2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*.9);position:relative;container-type:inline-size;transition:transform .3s,box-shadow .3s,opacity .3s}
+.pname{font-family:var(--font-head);font-size:min(calc(var(--u)*4.8),18.5cqw);text-align:center;line-height:1.2;white-space:nowrap;max-width:100%}
 .pgapn{font-family:var(--font-ui,inherit);font-size:.62em;font-weight:800;color:var(--accent);margin-inline-start:.35em}
 .prow{display:flex;justify-content:center;align-items:baseline;max-width:100%}
-.ptime{font-family:var(--font-clock);direction:ltr;font-weight:900;font-size:min(calc(var(--u)*5.6),20cqw);line-height:1.12;white-space:nowrap;max-width:100%}
+.ptime{font-family:var(--font-clock);direction:ltr;font-weight:900;font-size:min(calc(var(--u)*7.2),24.5cqw);line-height:1.12;white-space:nowrap;max-width:100%}
 .ptime .ap{font-size:.38em;margin-inline-start:.15em;font-weight:700;opacity:.85}
 .prow.iq .ptime{color:var(--accent)}
 .pcard.next{border:2px solid var(--accent);background:var(--accent-soft);box-shadow:0 .8em 2.2em -1em var(--accent);transform:translateY(calc(var(--u)*-.35))}
@@ -922,6 +922,13 @@ window.NOOR_CONFIG = {
       <div class="field"><label>مدة الصلاة بالدقائق</label><input type="number" min="1" max="60" data-k="salat.dur"></div>
       <label class="check"><input type="checkbox" data-k="salat.countdown"><span>إظهار عدّاد تنازلي لنهاية الصلاة</span></label>
       <div class="field"><label>سطوع الساعة على الشاشة السوداء (٪)</label><input type="range" min="15" max="90" data-k="salat.bright"></div>
+      <h3>إطفاء الشاشة ليلاً (حماية الشاشة)</h3>
+      <label class="check"><input type="checkbox" data-k="night.on"><span>تسويد الشاشة ليلاً وإبقاء الساعة فقط</span></label>
+      <div class="row3">
+        <div class="field"><label>تبدأ بعد العشاء بـ</label><select data-t="num" data-k="night.afterIsha"><option value="0">بعد الصلاة مباشرة</option><option value="0.5">نصف ساعة</option><option value="1">ساعة</option><option value="1.5">ساعة ونصف</option><option value="2">ساعتين</option><option value="3">٣ ساعات</option></select></div>
+        <div class="field"><label>تنتهي قبل الفجر بـ</label><select data-t="num" data-k="night.beforeFajr"><option value="0.5">نصف ساعة</option><option value="1">ساعة</option><option value="1.5">ساعة ونصف</option><option value="2">ساعتين</option><option value="3">٣ ساعات</option></select></div>
+        <div class="field"><label>سطوع الساعة (٪)</label><input type="range" min="10" max="90" data-k="night.bright"></div>
+      </div>
 
       <h3>أذكار ما بعد الصلاة</h3>
       <label class="check"><input type="checkbox" data-k="adhkar.on"><span>تفعيل شاشة الأذكار</span></label>
@@ -929,6 +936,8 @@ window.NOOR_CONFIG = {
         <div class="field"><label>تظهر بعد الإقامة بـ (دقائق)</label><input type="number" min="0" max="60" data-k="adhkar.afterMin"></div>
         <div class="field"><label>مدة بقاء صفحة الأذكار (دقائق)</label><input type="number" min="1" max="30" data-k="adhkar.maxMin"></div>
       </div>
+      <label class="check"><input type="checkbox" data-k="adhkar.single"><span>عرض ذكر واحد في كل مرة بخط كبير</span></label>
+      <div class="field"><label>مدة الذكر الواحد (ثانية، تزيد تلقائياً للنص الطويل)</label><input type="number" min="6" max="90" data-k="adhkar.slideSec"></div>
       <div class="field"><label>الصلوات التي تظهر بعدها الأذكار</label>
         <div class="row3">
           <label class="check"><input type="checkbox" data-k="adhkar.prayers.0"><span>الفجر</span></label>
@@ -947,6 +956,7 @@ window.NOOR_CONFIG = {
         <button class="btn ghost sm" data-preview="iqamaWait" type="button">عدّاد الإقامة (كامل)</button>
         <button class="btn ghost sm" data-preview="iqamaNow" type="button">أقيموا الصلاة</button>
         <button class="btn ghost sm" data-preview="shuruq" type="button">شاشة الشروق</button>
+        <button class="btn ghost sm" data-preview="night" type="button">الشاشة الليلية</button>
         <button class="btn ghost sm" data-preview="black" type="button">شاشة الصلاة</button>
         <button class="btn ghost sm" data-preview="adhkar:fajr" type="button">أذكار الفجر</button>
         <button class="btn ghost sm" data-preview="adhkar:dhuhr" type="button">أذكار الظهر</button>
@@ -1184,10 +1194,10 @@ window.NOOR_CONFIG = {
     method: "makkah", fajrAngle: 18.5, ishaAngle: 17, asrFactor: 1, adjust: [0, 0, 0, 0, 0, 0],
     hijriAdj: 0, imsakOffset: 10,
     manualOn: false, manual: ["", "", "", "", "", ""],
-    iqama: [25, 20, 20, 10, 20], shuruqIqama: 15, shuruqScreen: true, shuruqSec: 30, adhanDur: 3, showIqamaScreen: true, iqamaMsgSec: 25, iqamaInline: true, iqamaFullSec: 120,
+    iqama: [25, 20, 20, 10, 20], night: { on: false, afterIsha: 2, beforeFajr: 1, bright: 25 }, shuruqIqama: 15, shuruqScreen: true, shuruqSec: 30, adhanDur: 3, showIqamaScreen: true, iqamaMsgSec: 25, iqamaInline: true, iqamaFullSec: 120,
     jumua: "", jumuaIqama: 20,
     salat: { black: true, dur: 10, countdown: true, bright: 45 },
-    adhkar: { on: true, afterMin: 10, maxMin: 5, slideSec: 20, prayers: [true, true, true, true, true], morningEvening: true },
+    adhkar: { on: true, single: true, afterMin: 10, maxMin: 5, slideSec: 20, prayers: [true, true, true, true, true], morningEvening: true },
     sound: {
       on: true, volume: 80,
       adhan:     { on: true,  file: "adhan" },
@@ -1443,7 +1453,18 @@ window.NOOR_CONFIG = {
     }
     const blackMs = Math.max(0, +S.salat.dur) * 60000;
     if (S.salat.black && ti >= msgMs && ti < blackMs) return { type: "black", p, leftSec: (blackMs - ti) / 1000 };
-    return { type: "none" };
+    return N.nightScreen(nowMs) || { type: "none" };
+  };
+  /** الفترة الليلية: من (العشاء + س) إلى (الفجر − س) شاشة سوداء بالساعة فقط */
+  N.nightScreen = function (nowMs) {
+    const nt = N.S.night; if (!nt || !nt.on) return null;
+    const all = N.allItems(nowMs);
+    let isha = null; for (const x of all) if (x.key === "isha" && x.ms <= nowMs) isha = x;
+    if (!isha) return null;
+    const fajr = all.find(x => x.key === "fajr" && x.ms > isha.ms); if (!fajr) return null;
+    const st = isha.ms + Math.max(0, +nt.afterIsha || 0) * 3600000, en = fajr.ms - Math.max(0, +nt.beforeFajr || 0) * 3600000;
+    if (nowMs < st || nowMs >= en) return null;
+    return { type: "black", p: isha, night: true, leftSec: (en - nowMs) / 1000 };
   };
   function previewScreen(nowMs) {
     const pv = N.preview;
@@ -1457,6 +1478,7 @@ window.NOOR_CONFIG = {
       case "iqamaInline": return { type: "iqamaInline", p, leftSec: Math.max(0, 300 - el) };
       case "iqamaWait": return { type: "iqamaWait", p, leftSec: Math.max(0, 125 - el) };
       case "iqamaNow": return { type: "iqamaNow", p };
+      case "night": return { type: "black", p, night: true, leftSec: Math.max(0, 3600 - el) };
       case "black": return { type: "black", p, leftSec: Math.max(0, +S_dur() * 60 - el) };
       case "shuruq": { const sp = all.filter(x => x.key === "sunrise").sort((a, b) => Math.abs(a.ms - nowMs) - Math.abs(b.ms - nowMs))[0] || next, tot = Math.max(1, (sp.iqamaMin || 15) * 60); return { type: "shuruq", p: sp, leftSec: Math.max(0, tot - el), elapsedSec: el, totalSec: tot }; }
       case "adhkar": { const plan = N.adhkarPlan(key); return { type: "adhkar", p, plan, elapsedSec: el, totalSec: 60 }; }
@@ -2105,7 +2127,7 @@ window.NOOR_CONFIG = {
 
   /* ---------- الشاشات الكاملة ---------- */
   const OVS = ["ovGen", "ovBlack", "ovAdhkar"];
-  let curType = "none", curSlide = -1, curKey = "", shSlide = -1;
+  let curType = "none", curSlide = -1, curKey = "", shSlide = -1, adSlide = -1;
   const SHURUQ_TEXTS = [
     { x: "عمرو بن عبسة قال: قلت: يا نبي الله أخبرني عن الصلاة، فقال: «صَلِّ صَلَاةَ الصُّبْحِ، ثُمَّ أَقْصِرْ عَنِ الصَّلَاةِ حَتَّى تَطْلُعَ الشَّمْسُ حَتَّى تَرْتَفِعَ، فَإِنَّهَا تَطْلُعُ حِينَ تَطْلُعُ بَيْنَ قَرْنَيْ شَيْطَانٍ، وَحِينَئِذٍ يَسْجُدُ لَهَا الْكُفَّارُ، ثُمَّ صَلِّ فَإِنَّ الصَّلَاةَ مَشْهُودَةٌ مَحْضُورَةٌ حَتَّى يَسْتَقِلَّ الظِّلُّ بِالرُّمْحِ»", s: "رواه مسلم" },
     { x: "عن عقبة بن عامر الجهني قال: «ثلاثُ ساعاتٍ كانَ رسولُ اللَّهِ صلَّى اللَّهُ عليهِ وسلَّمَ يَنهانا أن نصلِّيَ فيهنَّ، أو نقبُرَ فيهنَّ مَوتانا: حينَ تطلعُ الشَّمسُ بازغةً حتَّى ترتفعَ، وحينَ يقومُ قائمُ الظَّهيرةِ حتَّى تميلَ، وحينَ تضيَّفُ للغُروبِ حتَّى تغرُبَ»", s: "رواه مسلم" },
@@ -2154,10 +2176,11 @@ window.NOOR_CONFIG = {
       setDigits(bkDigs, pad(h) + pad(d.getMinutes()));
       const u = unit(), mi = d.getMinutes();
       $("bkTime").style.transform = `translate(${((mi % 5) - 2) * u * 0.5}px,${(((mi + 2) % 5) - 2) * u * 0.4}px)`;   // حركة طفيفة تحمي الشاشة من الاحتراق
-      document.documentElement.style.setProperty("--bk-op", Math.min(0.95, Math.max(0.1, (S.salat.bright || 45) / 100)));
-      $("bkLabel").textContent = S.salat.countdown ? "ينتهي وقت الصلاة بعد" : "";
-      $("bkCount").textContent = S.salat.countdown ? N.fmtCountdown(scr.leftSec) : "";
-      $("bkLabel").style.display = $("bkCount").style.display = S.salat.countdown ? "" : "none";
+      document.documentElement.style.setProperty("--bk-op", Math.min(0.95, Math.max(0.1, ((scr.night ? S.night.bright : S.salat.bright) || 45) / 100)));
+      const showCnt = scr.night ? false : S.salat.countdown;
+      $("bkLabel").textContent = showCnt ? "ينتهي وقت الصلاة بعد" : "";
+      $("bkCount").textContent = showCnt ? N.fmtCountdown(scr.leftSec) : "";
+      $("bkLabel").style.display = $("bkCount").style.display = showCnt ? "" : "none";
       showOv("ovBlack");
     } else if (type === "shuruq") {
       const list = $("akList");
@@ -2176,7 +2199,7 @@ window.NOOR_CONFIG = {
     } else if (type === "adhkar") {
       const plan = scr.plan;
       if (curType !== "adhkar" || curKey !== p.key) {
-        $("akList").classList.remove("one"); $("akList").style.columnCount = ""; $("akCnt").style.display = "none";
+        $("akList").classList.toggle("one", S.adhkar.single !== false); $("akList").style.columnCount = ""; $("akCnt").style.display = "none"; adSlide = -1;
         $("akHead").textContent = plan.title; curKey = p.key;
         const cut = x => { const i = (x || "").indexOf(" — "); return i > 0 ? x.slice(0, i) : (x || ""); };
         $("akList").innerHTML = plan.slides.map(sl => {
@@ -2186,8 +2209,14 @@ window.NOOR_CONFIG = {
         showOv("ovAdhkar"); placeOv("ovAdhkar"); fitAdhkar();
       } else showOv("ovAdhkar");
       const left = Math.max(0, scr.totalSec - scr.elapsedSec);
+      let pos = "";
+      if (S.adhkar.single !== false) {
+        const sa = N.slideAt(plan, scr.elapsedSec);
+        if (sa.i !== adSlide) { adSlide = sa.i; Array.from($("akList").children).forEach((c, i) => c.classList.toggle("on", i === sa.i)); fitAdhkar(); }
+        pos = N.num(sa.i + 1) + " / " + N.num(plan.slides.length) + " · ";
+      }
       $("akBar").style.width = Math.min(100, (left / scr.totalSec) * 100) + "%";
-      $("akIdx").textContent = "تختفي الصفحة بعد " + N.fmtCountdown(left);
+      $("akIdx").textContent = pos + "تختفي الصفحة بعد " + N.fmtCountdown(left);
     }
     if (curType !== type) { curType = type; if (type === "adhkar") setTimeout(N.refitText, 60); }
   };
