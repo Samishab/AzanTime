@@ -123,7 +123,7 @@ body.no-sec .sec{display:none}
 .temp.off{display:none}
 .ampm-row{display:flex;align-items:center;justify-content:center;gap:calc(var(--ring)*.04)}
 .ampm-row .ampm{margin-top:0}
-.clock-wrap .temp{position:absolute;top:0;right:0;z-index:2;font-size:calc(var(--ring)*.06);padding:.1em .6em;gap:.3em}
+.clock-wrap .temp{position:absolute;top:56%;right:12%;transform:translateY(-50%);z-index:2;font-size:calc(var(--ring)*.06);padding:.1em .6em;gap:.3em}
 .clock-wrap .temp .tv{min-width:2.2em}
 
 /* ---------- بطاقة الآية/الحديث ---------- */
@@ -223,6 +223,10 @@ body.no-ticker .ticker{display:none}
 #ovAdhkar{inset:auto;gap:calc(var(--u)*1.2);justify-content:flex-start;padding:calc(var(--u)*1.6) calc(var(--u)*2.2);
   background:var(--ov-bg,#0b1026);border:1px solid var(--panel-line);border-radius:calc(var(--u)*2.2);z-index:40}
 body.ak-mode .hadith,body.ak-mode .monthtbl,body.ak-mode .prayers{visibility:hidden}
+.ak-top{display:flex;align-items:center;gap:calc(var(--u)*2.4);width:100%;flex:none}
+.ak-top .ak-head{flex:1;min-width:0}
+.ak-clk{font-family:var(--font-clock);font-weight:900;font-size:calc(var(--u)*4.6);direction:ltr;line-height:1;color:var(--ink);white-space:nowrap}
+.ak-nxt{font-size:calc(var(--u)*2.3);font-weight:800;color:var(--ink-dim);white-space:nowrap}
 .ak-head{font-family:var(--font-head);font-weight:var(--w-head,700);font-size:calc(var(--u)*3.4);color:var(--accent);line-height:1.2;flex:none}
 .ak-list{flex:1;min-height:0;width:100%;overflow:hidden;column-count:2;column-gap:calc(var(--u)*2.6);column-rule:1px solid var(--panel-line);
   text-align:start;font-family:var(--font-quran);line-height:1.75}
@@ -827,7 +831,7 @@ window.NOOR_CONFIG = {
 
   <!-- أذكار ما بعد الصلاة -->
   <div class="ov" id="ovAdhkar">
-    <div class="ak-head" id="akHead"></div>
+    <div class="ak-top"><div class="ak-head" id="akHead"></div><div class="ak-clk" id="akClk"></div><div class="ak-nxt" id="akNxt"></div></div>
     <div class="ak-list" id="akList"></div>
     <div class="ak-foot">
       <div class="ak-bar"><i id="akBar"></i></div>
@@ -945,7 +949,7 @@ window.NOOR_CONFIG = {
         <div class="field"><label>تظهر بعد الإقامة بـ (دقائق)</label><input type="number" min="0" max="60" data-k="adhkar.afterMin"></div>
         <div class="field"><label>مدة بقاء صفحة الأذكار (دقائق)</label><input type="number" min="1" max="30" data-k="adhkar.maxMin"></div>
       </div>
-      <label class="check"><input type="checkbox" data-k="adhkar.single"><span>تقسيم الأذكار إلى صفحات متتابعة بخط كبير (غير محشورة)</span></label>
+      <label class="check"><input type="checkbox" data-k="adhkar.paged"><span>تقسيم الأذكار إلى صفحات متتابعة بخط كبير (إلغاؤه يعرضها كلها معاً بخط صغير)</span></label>
       <div class="field"><label>مدة كل ذكر (ثانية، تُجمع لكل صفحة وتزيد للنص الطويل)</label><input type="number" min="6" max="90" data-k="adhkar.slideSec"></div>
       <div class="field"><label>الصلوات التي تظهر بعدها الأذكار</label>
         <div class="row3">
@@ -1206,7 +1210,7 @@ window.NOOR_CONFIG = {
     iqama: [25, 20, 20, 10, 20], night: { on: false, afterIsha: 2, beforeFajr: 1, bright: 25 }, shuruqIqama: 15, shuruqScreen: true, shuruqSec: 30, adhanDur: 3, showIqamaScreen: true, iqamaMsgSec: 25, iqamaInline: true, iqamaFullSec: 120,
     jumua: "", jumuaIqama: 20,
     salat: { black: true, dur: 10, countdown: true, bright: 45 },
-    adhkar: { on: true, single: true, afterMin: 10, maxMin: 5, slideSec: 20, prayers: [true, true, true, true, true], morningEvening: true },
+    adhkar: { on: true, paged: true, afterMin: 10, maxMin: 5, slideSec: 20, prayers: [true, true, true, true, true], morningEvening: true },
     sound: {
       on: true, volume: 80,
       adhan:     { on: true,  file: "adhan" },
@@ -2032,7 +2036,8 @@ window.NOOR_CONFIG = {
     const tkOn = !document.body.classList.contains("no-ticker");
     const B = tkOn ? rel(tk).y - u * 0.8 : H - u;
     let L = u, R = W - u, T = hd.y + hd.h + u * 0.4;
-    if (cc.w > W * 0.6) T = cc.y + cc.h + u * 0.6;
+    if (id === "ovAdhkar") { /* كامل العرض تحت سطر الترويسة */ }
+    else if (cc.w > W * 0.6) T = cc.y + cc.h + u * 0.6;
     else if (cc.x + cc.w / 2 > W / 2) R = cc.x - u * 1.2; else L = cc.x + cc.w + u * 1.2;
     const o = $(id || "ovAdhkar");
     o.style.left = L + "px"; o.style.top = T + "px"; o.style.width = Math.max(100, R - L) + "px"; o.style.height = Math.max(100, B - T) + "px";
@@ -2040,7 +2045,7 @@ window.NOOR_CONFIG = {
   /** يوزّع الأذكار على صفحات: كل صفحة تضم أكثر ما يتّسع بخط مقروء */
   function buildPages(plan) {
     const list = $("akList"), items = Array.from(list.children), u = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--u")) || 10;
-    list.style.columnCount = list.clientWidth > u * 70 ? 2 : 1; list.style.fontSize = (u * 4.3) + "px";
+    list.style.columnCount = 1; list.style.fontSize = (u * 4.8) + "px";
     const ok = () => list.scrollWidth <= list.clientWidth + 1 && list.scrollHeight <= list.clientHeight + 1;
     const pages = []; let cur = [];
     items.forEach((el, i) => {
@@ -2055,11 +2060,11 @@ window.NOOR_CONFIG = {
     const list = $("akList"), u = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--u")) || 10;
     if (!list.clientHeight) return;
     const ok = () => list.scrollWidth <= list.clientWidth + 1 && list.scrollHeight <= list.clientHeight + 1;
-    const one = list.classList.contains("one"), pgm = list.classList.contains("pg"), cands = pgm ? [list.clientWidth > u * 70 ? 2 : 1] : one ? [1] : list.clientWidth > u * 70 ? [2, 3] : [1, 2];
+    const one = list.classList.contains("one"), pgm = list.classList.contains("pg"), cands = [1];
     let best = { n: cands[0], px: u * 1.1 };
     cands.forEach(n => {
       list.style.columnCount = n;
-      let lo = u * 1.1, hi = one ? u * 5 : pgm ? u * 5.4 : u * 3.6;
+      let lo = u * 1.1, hi = one ? u * 5 : pgm ? u * 6 : u * 3.6;
       list.style.fontSize = hi + "px";
       if (!ok()) { while (hi - lo > 0.5) { const mid = (hi + lo) / 2; list.style.fontSize = mid + "px"; if (ok()) lo = mid; else hi = mid; } } else lo = hi;
       if (lo > best.px || best.px === u * 1.1) best = lo >= best.px ? { n, px: lo } : best;
@@ -2167,6 +2172,11 @@ window.NOOR_CONFIG = {
     $("ovKicker").style.display = kicker ? "" : "none";
   };
 
+  function akClock() {
+    const S = N.S, d = new Date(N.now()), H = d.getHours(), h = S.clock.h24 ? H : (H % 12 || 12);
+    $("akClk").textContent = N.num(pad(h) + ":" + pad(d.getMinutes())) + (S.clock.h24 ? "" : (H < 12 ? " ص" : " م"));
+    $("akNxt").textContent = "متبقّي على " + $("nextName").textContent + "  " + $("nextCount").textContent;
+  }
   N.renderScreen = function (scr, nowMs) {
     const type = scr.type, hadEl = $("hadith");
     document.body.classList.toggle("ak-mode", type === "adhkar" || type === "shuruq" || type === "adhan" || type === "iqamaWait" || type === "iqamaNow");
@@ -2207,7 +2217,7 @@ window.NOOR_CONFIG = {
       $("bkLabel").style.display = $("bkCount").style.display = showCnt ? "" : "none";
       showOv("ovBlack");
     } else if (type === "shuruq") {
-      const list = $("akList");
+      const list = $("akList"); akClock();
       if (curType !== "shuruq") {
         $("akHead").textContent = "وقت النهي عن الصلاة بعد الشروق"; curKey = "shuruq"; shSlide = -1;
         list.classList.remove("pg"); list.classList.add("one");
@@ -2221,9 +2231,9 @@ window.NOOR_CONFIG = {
       $("akBar").style.width = Math.min(100, (scr.leftSec / scr.totalSec) * 100) + "%";
       $("akIdx").textContent = "المتبقي على انتهاء وقت النهي وإقامة صلاة الإشراق";
     } else if (type === "adhkar") {
-      const plan = scr.plan;
+      const plan = scr.plan; akClock();
       if (curType !== "adhkar" || curKey !== p.key) {
-        $("akList").classList.remove("one"); $("akList").classList.toggle("pg", S.adhkar.single !== false); $("akList").style.columnCount = ""; $("akCnt").style.display = "none"; adSlide = -1;
+        $("akList").classList.remove("one"); $("akList").classList.toggle("pg", S.adhkar.paged); $("akList").style.columnCount = ""; $("akCnt").style.display = "none"; adSlide = -1;
         $("akHead").textContent = plan.title; curKey = p.key;
         const cut = x => { const i = (x || "").indexOf(" — "); return i > 0 ? x.slice(0, i) : (x || ""); };
         $("akList").innerHTML = plan.slides.map(sl => {
@@ -2231,11 +2241,11 @@ window.NOOR_CONFIG = {
           return `<div class="aki">${meta ? `<div class="akm">${meta}</div>` : ""}<div class="akx">${sl.x}</div></div>`;
         }).join("");
         showOv("ovAdhkar"); placeOv("ovAdhkar");
-        if (S.adhkar.single !== false) buildPages(plan); else fitAdhkar();
+        if (S.adhkar.paged) buildPages(plan); else fitAdhkar();
       } else showOv("ovAdhkar");
       const left = Math.max(0, scr.totalSec - scr.elapsedSec);
       let pos = "";
-      if (S.adhkar.single !== false && adPages.length) {
+      if (S.adhkar.paged && adPages.length) {
         const sum = adPageDurs.reduce((a, b) => a + b, 0), sa = N.slideAt({ slides: adPages, durs: adPageDurs }, scr.elapsedSec * Math.max(1, sum / scr.totalSec));
         if (sa.i !== adSlide) { adSlide = sa.i; const on = new Set(adPages[sa.i]); Array.from($("akList").children).forEach((c, i) => c.classList.toggle("on", on.has(i))); fitAdhkar(); }
         pos = "صفحة " + N.num(sa.i + 1) + " / " + N.num(adPages.length) + " · ";
