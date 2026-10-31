@@ -149,7 +149,7 @@ body.no-ornament .hadith::before{display:none}
 .pgapn{font-family:var(--font-ui,inherit);font-size:.82em;font-weight:900;color:var(--accent);margin-inline-start:.35em}
 .prow{display:flex;justify-content:center;align-items:baseline;max-width:100%}
 .ptime{font-family:var(--font-clock);direction:ltr;font-weight:900;font-size:min(calc(var(--u)*9),29cqw);line-height:1.12;white-space:nowrap;max-width:100%}
-.ptime .ap{font-size:.38em;margin-inline-start:.15em;font-weight:700;opacity:.85}
+.ptime .ap{display:inline-block;unicode-bidi:isolate;direction:rtl;font-size:.38em;margin-inline-end:.15em;font-weight:700;opacity:.85}
 .prow.iq .ptime{color:var(--accent)}
 .pcard.next{border:2px solid var(--accent);background:var(--accent-soft);box-shadow:0 .8em 2.2em -1em var(--accent);transform:translateY(calc(var(--u)*-.35))}
 .pcard.next .pname{color:var(--accent)}
@@ -223,9 +223,14 @@ body.no-ticker .ticker{display:none}
 #ovAdhkar{inset:auto;gap:calc(var(--u)*1.2);justify-content:flex-start;padding:calc(var(--u)*1.6) calc(var(--u)*2.2);
   background:var(--ov-bg,#0b1026);border:1px solid var(--panel-line);border-radius:calc(var(--u)*2.2);z-index:40}
 body.ak-mode .hadith,body.ak-mode .monthtbl,body.ak-mode .prayers{visibility:hidden}
-.ak-top{display:flex;align-items:center;gap:calc(var(--u)*2.4);width:100%;flex:none}
-.ak-top .ak-head{flex:1;min-width:0}
-.ak-clk{font-family:var(--font-clock);font-weight:900;font-size:calc(var(--u)*4.6);direction:ltr;line-height:1;color:var(--ink);white-space:nowrap}
+.ak-top{display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*.2);width:100%;flex:none;text-align:center}
+.ak-clkrow{display:flex;align-items:baseline;justify-content:center;gap:calc(var(--u)*2.4)}
+.ak-top .ak-head{font-size:calc(var(--u)*5.2)}
+.ak-list:not(.one){text-align:center;line-height:1.38}
+.ak-list:not(.one) .aki{margin-bottom:.12em}
+.ak-list:not(.one) .akx{display:inline}
+.ak-list:not(.one) .akm{display:inline;margin-inline-start:.5em}
+.ak-clk{font-family:var(--font-clock);font-weight:900;font-size:calc(var(--u)*5.2);direction:ltr;line-height:1;color:var(--ink);white-space:nowrap}
 .ak-nxt{font-size:calc(var(--u)*2.3);font-weight:800;color:var(--ink-dim);white-space:nowrap}
 .ak-head{font-family:var(--font-head);font-weight:var(--w-head,700);font-size:calc(var(--u)*3.4);color:var(--accent);line-height:1.2;flex:none}
 .ak-list{flex:1;min-height:0;width:100%;overflow:hidden;column-count:2;column-gap:calc(var(--u)*2.6);column-rule:1px solid var(--panel-line);
@@ -831,7 +836,7 @@ window.NOOR_CONFIG = {
 
   <!-- أذكار ما بعد الصلاة -->
   <div class="ov" id="ovAdhkar">
-    <div class="ak-top"><div class="ak-head" id="akHead"></div><div class="ak-clk" id="akClk"></div><div class="ak-nxt" id="akNxt"></div></div>
+    <div class="ak-top"><div class="ak-clkrow"><span class="ak-clk" id="akClk"></span><span class="ak-nxt" id="akNxt"></span></div><div class="ak-head" id="akHead"></div></div>
     <div class="ak-list" id="akList"></div>
     <div class="ak-foot">
       <div class="ak-bar"><i id="akBar"></i></div>
@@ -949,7 +954,7 @@ window.NOOR_CONFIG = {
         <div class="field"><label>تظهر بعد الإقامة بـ (دقائق)</label><input type="number" min="0" max="60" data-k="adhkar.afterMin"></div>
         <div class="field"><label>مدة بقاء صفحة الأذكار (دقائق)</label><input type="number" min="1" max="30" data-k="adhkar.maxMin"></div>
       </div>
-      <label class="check"><input type="checkbox" data-k="adhkar.paged"><span>تقسيم الأذكار إلى صفحات متتابعة بخط كبير (إلغاؤه يعرضها كلها معاً بخط صغير)</span></label>
+      <label class="check"><input type="checkbox" data-k="adhkar.pages"><span>تقسيم الأذكار إلى صفحات متتابعة بخط أكبر (الافتراضي: كلها في صفحة واحدة)</span></label>
       <div class="field"><label>مدة كل ذكر (ثانية، تُجمع لكل صفحة وتزيد للنص الطويل)</label><input type="number" min="6" max="90" data-k="adhkar.slideSec"></div>
       <div class="field"><label>الصلوات التي تظهر بعدها الأذكار</label>
         <div class="row3">
@@ -1210,7 +1215,7 @@ window.NOOR_CONFIG = {
     iqama: [25, 20, 20, 10, 20], night: { on: false, afterIsha: 2, beforeFajr: 1, bright: 25 }, shuruqIqama: 15, shuruqScreen: true, shuruqSec: 30, adhanDur: 3, showIqamaScreen: true, iqamaMsgSec: 25, iqamaInline: true, iqamaFullSec: 120,
     jumua: "", jumuaIqama: 20,
     salat: { black: true, dur: 10, countdown: true, bright: 45 },
-    adhkar: { on: true, paged: true, afterMin: 10, maxMin: 5, slideSec: 20, prayers: [true, true, true, true, true], morningEvening: true },
+    adhkar: { on: true, pages: false, afterMin: 10, maxMin: 5, slideSec: 20, prayers: [true, true, true, true, true], morningEvening: true },
     sound: {
       on: true, volume: 80,
       adhan:     { on: true,  file: "adhan" },
@@ -1959,7 +1964,7 @@ window.NOOR_CONFIG = {
   };
 
   /* ---------- بطاقات المواقيت: الأذان ثم الإقامة بخط أكبر ثم الفاصل ---------- */
-  const timeHTML = min => { const f = N.fmtMin(min); return f.t + (f.ap ? `<span class="ap">${f.ap}</span>` : ""); };
+  const timeHTML = min => { const f = N.fmtMin(min); return (f.ap ? `<span class="ap">${f.ap}</span>` : "") + f.t; };
   N.renderCards = function () {
     const S = N.S, day = N.buildDay(N.now()), row = $("prayers");
     const items = day.items.filter(p => p.key !== "sunrise" || S.showShuruq);
@@ -2064,7 +2069,7 @@ window.NOOR_CONFIG = {
     let best = { n: cands[0], px: u * 1.1 };
     cands.forEach(n => {
       list.style.columnCount = n;
-      let lo = u * 1.1, hi = one ? u * 5 : pgm ? u * 6 : u * 3.6;
+      let lo = u * 1.1, hi = one ? u * 5 : pgm ? u * 6 : u * 4.5;
       list.style.fontSize = hi + "px";
       if (!ok()) { while (hi - lo > 0.5) { const mid = (hi + lo) / 2; list.style.fontSize = mid + "px"; if (ok()) lo = mid; else hi = mid; } } else lo = hi;
       if (lo > best.px || best.px === u * 1.1) best = lo >= best.px ? { n, px: lo } : best;
@@ -2174,7 +2179,7 @@ window.NOOR_CONFIG = {
 
   function akClock() {
     const S = N.S, d = new Date(N.now()), H = d.getHours(), h = S.clock.h24 ? H : (H % 12 || 12);
-    $("akClk").textContent = N.num(pad(h) + ":" + pad(d.getMinutes())) + (S.clock.h24 ? "" : (H < 12 ? " ص" : " م"));
+    $("akClk").textContent = (S.clock.h24 ? "" : (H < 12 ? "ص " : "م ")) + N.num(pad(h) + ":" + pad(d.getMinutes()));
     $("akNxt").textContent = "متبقّي على " + $("nextName").textContent + "  " + $("nextCount").textContent;
   }
   N.renderScreen = function (scr, nowMs) {
@@ -2233,19 +2238,19 @@ window.NOOR_CONFIG = {
     } else if (type === "adhkar") {
       const plan = scr.plan; akClock();
       if (curType !== "adhkar" || curKey !== p.key) {
-        $("akList").classList.remove("one"); $("akList").classList.toggle("pg", S.adhkar.paged); $("akList").style.columnCount = ""; $("akCnt").style.display = "none"; adSlide = -1;
+        $("akList").classList.remove("one"); $("akList").classList.toggle("pg", S.adhkar.pages); $("akList").style.columnCount = ""; $("akCnt").style.display = "none"; adSlide = -1;
         $("akHead").textContent = plan.title; curKey = p.key;
         const cut = x => { const i = (x || "").indexOf(" — "); return i > 0 ? x.slice(0, i) : (x || ""); };
         $("akList").innerHTML = plan.slides.map(sl => {
-          const meta = [sl.t, sl.c > 0 ? "×" + N.num(sl.c) : "", cut(sl.s)].filter(Boolean).join(" · ");
-          return `<div class="aki">${meta ? `<div class="akm">${meta}</div>` : ""}<div class="akx">${sl.x}</div></div>`;
+          const meta = (S.adhkar.pages ? [sl.t, sl.c > 0 ? "×" + N.num(sl.c) : "", cut(sl.s)] : [sl.c > 0 ? "×" + N.num(sl.c) : ""]).filter(Boolean).join(" · ");
+          return `<div class="aki"><span class="akx">${sl.x}</span>${meta ? ` <span class="akm">${meta}</span>` : ""}</div>`;
         }).join("");
         showOv("ovAdhkar"); placeOv("ovAdhkar");
-        if (S.adhkar.paged) buildPages(plan); else fitAdhkar();
+        if (S.adhkar.pages) buildPages(plan); else fitAdhkar();
       } else showOv("ovAdhkar");
       const left = Math.max(0, scr.totalSec - scr.elapsedSec);
       let pos = "";
-      if (S.adhkar.paged && adPages.length) {
+      if (S.adhkar.pages && adPages.length) {
         const sum = adPageDurs.reduce((a, b) => a + b, 0), sa = N.slideAt({ slides: adPages, durs: adPageDurs }, scr.elapsedSec * Math.max(1, sum / scr.totalSec));
         if (sa.i !== adSlide) { adSlide = sa.i; const on = new Set(adPages[sa.i]); Array.from($("akList").children).forEach((c, i) => c.classList.toggle("on", on.has(i))); fitAdhkar(); }
         pos = "صفحة " + N.num(sa.i + 1) + " / " + N.num(adPages.length) + " · ";
