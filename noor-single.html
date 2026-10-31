@@ -62,10 +62,10 @@ header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:ca
 .mosque-name{font-family:var(--font-head);font-size:calc(var(--u)*3.2);line-height:1.15;color:var(--accent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mosque-sub{font-family:var(--font-quran);font-weight:700;font-size:calc(var(--u)*2.5);line-height:1.5;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dates{display:flex;align-items:center;justify-content:center;gap:calc(var(--u)*1.7);
-  font-family:var(--font-head);font-size:calc(var(--u)*3.3);line-height:1.2;white-space:nowrap;
+  font-family:var(--font-head);font-weight:var(--w-head,700);font-size:calc(var(--u)*4);line-height:1.2;white-space:nowrap;
   transition:opacity var(--fade) ease}
-.dates .sep{flex:none;width:calc(var(--u)*.32);height:calc(var(--u)*3.4);background:var(--accent);border-radius:99px;opacity:.85}
-.dates .hijri{color:var(--ink)}
+.dates .sep{flex:none;width:calc(var(--u)*.32);height:calc(var(--u)*4);background:var(--accent);border-radius:99px;opacity:.85}
+.dates .hijri,.dates .wday{color:var(--ink)}
 .dates .greg{color:var(--ink)}
 .header-actions{justify-self:end;display:flex;gap:calc(var(--u)*.7);align-items:center}
 .icon-btn{width:calc(var(--u)*4.2);height:calc(var(--u)*4.2);border-radius:calc(var(--u)*1.1);border:1px solid var(--panel-line);
@@ -107,7 +107,7 @@ body:not(.analog) .ring .hands{display:none}
 .dg,.cl{font-style:normal}
 .dg{display:inline-block;width:.64em;text-align:center}
 .cl{display:inline-block;width:.3em;text-align:center;opacity:.9}
-.sec{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:.34em;line-height:1.1;color:var(--accent);display:block;margin-bottom:.1em}
+.sec{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:.46em;font-weight:900;line-height:1.1;color:var(--accent);display:block;margin-bottom:.1em}
 .sec .dg{width:.62em}
 body.no-sec .sec{display:none}
 .ampm{font-size:calc(var(--ring)*.045);color:var(--ink-dim);margin-top:calc(var(--ring)*.012);min-height:1.3em;font-weight:600}
@@ -121,6 +121,10 @@ body.no-sec .sec{display:none}
 .temp .ti{font-size:.85em;color:var(--accent)}
 .temp .tv{direction:ltr;min-width:3.2em;text-align:center;font-weight:900}
 .temp.off{display:none}
+.ampm-row{display:flex;align-items:center;justify-content:center;gap:calc(var(--ring)*.04)}
+.ampm-row .ampm{margin-top:0}
+.ampm-row .temp{font-size:calc(var(--ring)*.05);padding:.05em .55em;gap:.3em}
+.ampm-row .temp .tv{min-width:2.4em}
 
 /* ---------- بطاقة الآية/الحديث ---------- */
 .hadith{grid-area:hadith;align-self:center;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;
@@ -141,8 +145,8 @@ body.no-ornament .hadith::before{display:none}
 .prayers{grid-area:prayers;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:calc(var(--u)*1.1);transition:opacity var(--fade) ease}
 .pcard{background:var(--panel);border:1px solid var(--panel-line);border-radius:calc(var(--u)*1.8);padding:calc(var(--u)*1.9) calc(var(--u)*.7) calc(var(--u)*2);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*.9);position:relative;container-type:inline-size;transition:transform .3s,box-shadow .3s,opacity .3s}
-.pname{font-family:var(--font-head);font-size:min(calc(var(--u)*4.8),18.5cqw);text-align:center;line-height:1.2;white-space:nowrap;max-width:100%}
-.pgapn{font-family:var(--font-ui,inherit);font-size:.62em;font-weight:800;color:var(--accent);margin-inline-start:.35em}
+.pname{font-family:var(--font-head);font-size:min(calc(var(--u)*5.4),19.5cqw);text-align:center;line-height:1.2;white-space:nowrap;max-width:100%}
+.pgapn{font-family:var(--font-ui,inherit);font-size:.82em;font-weight:900;color:var(--accent);margin-inline-start:.35em}
 .prow{display:flex;justify-content:center;align-items:baseline;max-width:100%}
 .ptime{font-family:var(--font-clock);direction:ltr;font-weight:900;font-size:min(calc(var(--u)*9),29cqw);line-height:1.12;white-space:nowrap;max-width:100%}
 .ptime .ap{font-size:.38em;margin-inline-start:.15em;font-weight:700;opacity:.85}
@@ -231,8 +235,11 @@ body.ak-mode .hadith,body.ak-mode .monthtbl,body.ak-mode .prayers{visibility:hid
 .ak-idx{font-size:calc(var(--u)*1.6);color:var(--ink-dim)}
 .ak-cnt{display:none;font-family:var(--font-clock);font-weight:900;font-size:calc(var(--u)*9);direction:ltr;line-height:1;color:var(--accent)}
 .ak-cnt.warn{color:#ff6a55}
+.ak-list.pg .aki{display:none}.ak-list.pg .aki.on{display:block}
 .ak-list.one{column-count:1 !important;display:flex;flex-direction:column;justify-content:center;text-align:center}
 .ak-list.one .aki{display:none;margin:0}.ak-list.one .aki.on{display:block}
+.mosque-name,.pname,.next-name,.ov-title,.ims-title,.rb-day{font-weight:var(--w-head,800)}
+.next-label,.ampm{font-weight:800}
 .iqgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 
 /* عدّاد الإقامة: يملأ بطاقة الآيات كاملة بخلفية تقدّم متحرّكة */
@@ -353,7 +360,7 @@ body.vertical .mt-head{font-size:calc(var(--u)*1.6)}
 body.vertical header{grid-template-columns:1fr;justify-items:center;text-align:center;gap:calc(var(--u)*.4)}
 body.vertical .brand,body.vertical .header-actions{justify-self:center}
 body.vertical .header-actions{position:absolute;top:calc(var(--u)*1);left:calc(var(--u)*1.5);z-index:5}
-body.vertical .dates{flex-direction:column;gap:calc(var(--u)*.2);font-size:calc(var(--u)*3.3)}
+body.vertical .dates{flex-direction:column;gap:calc(var(--u)*.2);font-size:calc(var(--u)*3.6)}
 body.vertical .dates .sep{width:calc(var(--u)*10);height:calc(var(--u)*.3)}
 body.vertical .ov-title{font-size:calc(var(--u)*13)}
 body.vertical .ov-sub{max-width:92%}
@@ -730,6 +737,8 @@ window.NOOR_CONFIG = {
         <div class="mosque-sub" id="mosqueSub"></div>
       </div>
       <div class="dates" id="dates">
+        <span class="wday" id="dateWd">—</span>
+        <span class="sep"></span>
         <span class="hijri" id="dateHijri">—</span>
         <span class="sep"></span>
         <span class="greg" id="dateGreg">—</span>
@@ -757,7 +766,7 @@ window.NOOR_CONFIG = {
           </svg>
           <div class="clock-inner">
             <div class="digital" id="digital" aria-live="off"></div>
-            <div class="ampm" id="ampm"></div>
+            <div class="ampm-row"><div class="temp" id="temp" title="اضغط للتبديل بين °C و °F"><span class="ti">🌡</span><span class="tv" id="tempVal">--</span></div><div class="ampm" id="ampm"></div></div>
             <div class="next-box">
               <div class="next-label">متبقّي على</div>
               <div class="next-name" id="nextName">—</div>
@@ -765,7 +774,6 @@ window.NOOR_CONFIG = {
             </div>
           </div>
         </div>
-        <div class="temp" id="temp" title="اضغط للتبديل بين °C و °F"><span class="ti">🌡</span><span class="tv" id="tempVal">--</span></div>
       </div>
 
       <!-- بطاقة الآية/الحديث في الوسط -->
@@ -936,8 +944,8 @@ window.NOOR_CONFIG = {
         <div class="field"><label>تظهر بعد الإقامة بـ (دقائق)</label><input type="number" min="0" max="60" data-k="adhkar.afterMin"></div>
         <div class="field"><label>مدة بقاء صفحة الأذكار (دقائق)</label><input type="number" min="1" max="30" data-k="adhkar.maxMin"></div>
       </div>
-      <label class="check"><input type="checkbox" data-k="adhkar.single"><span>عرض ذكر واحد في كل مرة بخط كبير</span></label>
-      <div class="field"><label>مدة الذكر الواحد (ثانية، تزيد تلقائياً للنص الطويل)</label><input type="number" min="6" max="90" data-k="adhkar.slideSec"></div>
+      <label class="check"><input type="checkbox" data-k="adhkar.single"><span>تقسيم الأذكار إلى صفحات متتابعة بخط كبير (غير محشورة)</span></label>
+      <div class="field"><label>مدة كل ذكر (ثانية، تُجمع لكل صفحة وتزيد للنص الطويل)</label><input type="number" min="6" max="90" data-k="adhkar.slideSec"></div>
       <div class="field"><label>الصلوات التي تظهر بعدها الأذكار</label>
         <div class="row3">
           <label class="check"><input type="checkbox" data-k="adhkar.prayers.0"><span>الفجر</span></label>
@@ -1934,9 +1942,10 @@ window.NOOR_CONFIG = {
     const S = N.S, now = N.now(), nu = S.arabNum ? "arab" : "latn";
     try {
       const adj = new Date(now.getTime() + (Number(S.hijriAdj) || 0) * 86400000);
-      let h = new Intl.DateTimeFormat("ar-SA-u-ca-islamic-umalqura-nu-" + nu, { weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(adj);
+      let h = new Intl.DateTimeFormat("ar-SA-u-ca-islamic-umalqura-nu-" + nu, { day: "numeric", month: "long", year: "numeric" }).format(adj);
       h = h.replace("،", "").replace(/\s*هـ\s*$/, "").trim() + " هـ";
       $("dateHijri").textContent = h;
+      $("dateWd").textContent = new Intl.DateTimeFormat("ar", { weekday: "long" }).format(now);
     } catch (e) { $("dateHijri").textContent = ""; }
     try {
       const g = new Intl.DateTimeFormat("ar-SA-u-ca-gregory-nu-" + nu, { day: "numeric", month: "long", year: "numeric" }).format(now);
@@ -2027,15 +2036,29 @@ window.NOOR_CONFIG = {
     const o = $(id || "ovAdhkar");
     o.style.left = L + "px"; o.style.top = T + "px"; o.style.width = Math.max(100, R - L) + "px"; o.style.height = Math.max(100, B - T) + "px";
   }
+  /** يوزّع الأذكار على صفحات: كل صفحة تضم أكثر ما يتّسع بخط مقروء */
+  function buildPages(plan) {
+    const list = $("akList"), items = Array.from(list.children), u = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--u")) || 10;
+    list.style.columnCount = list.clientWidth > u * 70 ? 2 : 1; list.style.fontSize = (u * 4.3) + "px";
+    const ok = () => list.scrollWidth <= list.clientWidth + 1 && list.scrollHeight <= list.clientHeight + 1;
+    const pages = []; let cur = [];
+    items.forEach((el, i) => {
+      items.forEach(x => x.classList.remove("on"));
+      cur.concat(i).forEach(j => items[j].classList.add("on"));
+      if (!ok() && cur.length) { pages.push(cur); cur = [i]; } else cur.push(i);
+    });
+    if (cur.length) pages.push(cur);
+    adPages = pages; adPageDurs = pages.map(pg => pg.reduce((a, j) => a + plan.durs[j], 0));
+  }
   function fitAdhkar() {
     const list = $("akList"), u = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--u")) || 10;
     if (!list.clientHeight) return;
     const ok = () => list.scrollWidth <= list.clientWidth + 1 && list.scrollHeight <= list.clientHeight + 1;
-    const one = list.classList.contains("one"), cands = one ? [1] : list.clientWidth > u * 70 ? [2, 3] : [1, 2];
+    const one = list.classList.contains("one"), pgm = list.classList.contains("pg"), cands = pgm ? [list.clientWidth > u * 70 ? 2 : 1] : one ? [1] : list.clientWidth > u * 70 ? [2, 3] : [1, 2];
     let best = { n: cands[0], px: u * 1.1 };
     cands.forEach(n => {
       list.style.columnCount = n;
-      let lo = u * 1.1, hi = one ? u * 5 : u * 3.6;
+      let lo = u * 1.1, hi = one ? u * 5 : pgm ? u * 5.4 : u * 3.6;
       list.style.fontSize = hi + "px";
       if (!ok()) { while (hi - lo > 0.5) { const mid = (hi + lo) / 2; list.style.fontSize = mid + "px"; if (ok()) lo = mid; else hi = mid; } } else lo = hi;
       if (lo > best.px || best.px === u * 1.1) best = lo >= best.px ? { n, px: lo } : best;
@@ -2127,7 +2150,7 @@ window.NOOR_CONFIG = {
 
   /* ---------- الشاشات الكاملة ---------- */
   const OVS = ["ovGen", "ovBlack", "ovAdhkar"];
-  let curType = "none", curSlide = -1, curKey = "", shSlide = -1, adSlide = -1;
+  let curType = "none", curSlide = -1, curKey = "", shSlide = -1, adSlide = -1, adPages = [], adPageDurs = [];
   const SHURUQ_TEXTS = [
     { x: "عمرو بن عبسة قال: قلت: يا نبي الله أخبرني عن الصلاة، فقال: «صَلِّ صَلَاةَ الصُّبْحِ، ثُمَّ أَقْصِرْ عَنِ الصَّلَاةِ حَتَّى تَطْلُعَ الشَّمْسُ حَتَّى تَرْتَفِعَ، فَإِنَّهَا تَطْلُعُ حِينَ تَطْلُعُ بَيْنَ قَرْنَيْ شَيْطَانٍ، وَحِينَئِذٍ يَسْجُدُ لَهَا الْكُفَّارُ، ثُمَّ صَلِّ فَإِنَّ الصَّلَاةَ مَشْهُودَةٌ مَحْضُورَةٌ حَتَّى يَسْتَقِلَّ الظِّلُّ بِالرُّمْحِ»", s: "رواه مسلم" },
     { x: "عن عقبة بن عامر الجهني قال: «ثلاثُ ساعاتٍ كانَ رسولُ اللَّهِ صلَّى اللَّهُ عليهِ وسلَّمَ يَنهانا أن نصلِّيَ فيهنَّ، أو نقبُرَ فيهنَّ مَوتانا: حينَ تطلعُ الشَّمسُ بازغةً حتَّى ترتفعَ، وحينَ يقومُ قائمُ الظَّهيرةِ حتَّى تميلَ، وحينَ تضيَّفُ للغُروبِ حتَّى تغرُبَ»", s: "رواه مسلم" },
@@ -2186,7 +2209,7 @@ window.NOOR_CONFIG = {
       const list = $("akList");
       if (curType !== "shuruq") {
         $("akHead").textContent = "وقت النهي عن الصلاة بعد الشروق"; curKey = "shuruq"; shSlide = -1;
-        list.classList.add("one");
+        list.classList.remove("pg"); list.classList.add("one");
         list.innerHTML = SHURUQ_TEXTS.map(t => `<div class="aki"><div class="akx">${t.x}</div><div class="akm">${t.s}</div></div>`).join("");
         $("akCnt").style.display = "block";
         showOv("ovAdhkar"); placeOv("ovAdhkar");
@@ -2199,21 +2222,22 @@ window.NOOR_CONFIG = {
     } else if (type === "adhkar") {
       const plan = scr.plan;
       if (curType !== "adhkar" || curKey !== p.key) {
-        $("akList").classList.toggle("one", S.adhkar.single !== false); $("akList").style.columnCount = ""; $("akCnt").style.display = "none"; adSlide = -1;
+        $("akList").classList.remove("one"); $("akList").classList.toggle("pg", S.adhkar.single !== false); $("akList").style.columnCount = ""; $("akCnt").style.display = "none"; adSlide = -1;
         $("akHead").textContent = plan.title; curKey = p.key;
         const cut = x => { const i = (x || "").indexOf(" — "); return i > 0 ? x.slice(0, i) : (x || ""); };
         $("akList").innerHTML = plan.slides.map(sl => {
           const meta = [sl.t, sl.c > 0 ? "×" + N.num(sl.c) : "", cut(sl.s)].filter(Boolean).join(" · ");
           return `<div class="aki">${meta ? `<div class="akm">${meta}</div>` : ""}<div class="akx">${sl.x}</div></div>`;
         }).join("");
-        showOv("ovAdhkar"); placeOv("ovAdhkar"); fitAdhkar();
+        showOv("ovAdhkar"); placeOv("ovAdhkar");
+        if (S.adhkar.single !== false) buildPages(plan); else fitAdhkar();
       } else showOv("ovAdhkar");
       const left = Math.max(0, scr.totalSec - scr.elapsedSec);
       let pos = "";
-      if (S.adhkar.single !== false) {
-        const sa = N.slideAt(plan, scr.elapsedSec);
-        if (sa.i !== adSlide) { adSlide = sa.i; Array.from($("akList").children).forEach((c, i) => c.classList.toggle("on", i === sa.i)); fitAdhkar(); }
-        pos = N.num(sa.i + 1) + " / " + N.num(plan.slides.length) + " · ";
+      if (S.adhkar.single !== false && adPages.length) {
+        const sum = adPageDurs.reduce((a, b) => a + b, 0), sa = N.slideAt({ slides: adPages, durs: adPageDurs }, scr.elapsedSec * Math.max(1, sum / scr.totalSec));
+        if (sa.i !== adSlide) { adSlide = sa.i; const on = new Set(adPages[sa.i]); Array.from($("akList").children).forEach((c, i) => c.classList.toggle("on", on.has(i))); fitAdhkar(); }
+        pos = "صفحة " + N.num(sa.i + 1) + " / " + N.num(adPages.length) + " · ";
       }
       $("akBar").style.width = Math.min(100, (left / scr.totalSec) * 100) + "%";
       $("akIdx").textContent = pos + "تختفي الصفحة بعد " + N.fmtCountdown(left);
