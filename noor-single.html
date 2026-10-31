@@ -123,8 +123,8 @@ body.no-sec .sec{display:none}
 .temp.off{display:none}
 .ampm-row{display:flex;align-items:center;justify-content:center;gap:calc(var(--ring)*.04)}
 .ampm-row .ampm{margin-top:0}
-.ampm-row .temp{font-size:calc(var(--ring)*.05);padding:.05em .55em;gap:.3em}
-.ampm-row .temp .tv{min-width:2.4em}
+.clock-wrap .temp{position:absolute;top:0;right:0;z-index:2;font-size:calc(var(--ring)*.06);padding:.1em .6em;gap:.3em}
+.clock-wrap .temp .tv{min-width:2.2em}
 
 /* ---------- بطاقة الآية/الحديث ---------- */
 .hadith{grid-area:hadith;align-self:center;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;
@@ -764,9 +764,10 @@ window.NOOR_CONFIG = {
               <line class="hand s" id="ahS" x1="110" y1="120" x2="110" y2="26" stroke-width="1.6"/>
             </g>
           </svg>
+          <div class="temp" id="temp" title="اضغط للتبديل بين °C و °F"><span class="ti">🌡</span><span class="tv" id="tempVal">--</span></div>
           <div class="clock-inner">
             <div class="digital" id="digital" aria-live="off"></div>
-            <div class="ampm-row"><div class="temp" id="temp" title="اضغط للتبديل بين °C و °F"><span class="ti">🌡</span><span class="tv" id="tempVal">--</span></div><div class="ampm" id="ampm"></div></div>
+            <div class="ampm" id="ampm"></div>
             <div class="next-box">
               <div class="next-label">متبقّي على</div>
               <div class="next-name" id="nextName">—</div>
