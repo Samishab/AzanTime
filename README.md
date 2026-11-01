@@ -124,7 +124,7 @@ python tools/embed_font.py "PT Bold Heading.ttf" noor-single.html noor-single-fo
 
 ## الإصدارات ونقاط الرجوع
 
-رقم الإصدار الحالي مكتوب في الإعدادات ← عام. كل تحديث يُعطى رقماً جديداً ووسماً (tag) في GitHub، وتفاصيله في [CHANGELOG.md](CHANGELOG.md). للرجوع إلى إصدار سابق نزّل ملف `noor-single.html` من صفحة الوسم، مثل `v1.1`، أو نفّذ:
+رقم الإصدار الحالي مكتوب في الإعدادات ← عام، وتبويب «سجل الإصدارات» في الإعدادات يسرد مراحل تطوّر البرنامج من أقدم نسخة محفوظة. كل تحديث يُعطى رقماً جديداً ووسماً (tag) في GitHub، وتفاصيله في [CHANGELOG.md](CHANGELOG.md). للرجوع إلى إصدار سابق نزّل ملف `noor-single.html` من صفحة الوسم، مثل `v1.1`، أو نفّذ:
 
 ```
 git checkout v1.1 -- noor-single.html

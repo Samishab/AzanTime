@@ -268,6 +268,9 @@ body.ak-mode .hadith,body.ak-mode .monthtbl,body.ak-mode .prayers{visibility:hid
 .ak-list.one .aki{display:none;margin:0}.ak-list.one .aki.on{display:block}
 .mosque-name,.pname,.next-name,.ov-title,.ims-title,.rb-day{font-weight:var(--w-head,800)}
 .next-label,.ampm{font-weight:800}
+.vitem{border-right:3px solid #e0b84c;padding:4px 12px;margin:0 0 14px}
+.vhead{font-size:17px;color:#e0b84c}
+.vitem ul{margin:6px 0 0;padding-inline-start:20px;line-height:1.9}
 .iqgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 
 /* عدّاد الإقامة: يملأ بطاقة الآيات كاملة بخلفية تقدّم متحرّكة */
@@ -608,6 +611,7 @@ window.NOOR_CONFIG = {
     burgundy: { name: "عنّابي",     accent: "#f3cf6d", g: ["#2a0d14", "#4d1626"],            dark: true },
     sky:      { name: "سماء الفجر", accent: "#ffd9a0", g: ["#16263f", "#3a5a8a"],            dark: true },
     mono:     { name: "أسود فاخر",  accent: "#cfcfcf", g: ["#050505", "#161616"],            dark: true },
+    white:    { name: "أبيض",       accent: "#7a5a14", g: ["#ffffff", "#f1efe8"],            dark: false },
     desert:   { name: "رمال",       accent: "#7a4a21", g: ["#f4e9d2", "#e2cba4"],            dark: false },
     dawn3:    { name: "فجر ثلاثي",  accent: "#ffcf7a", g: ["#1b1f4b", "#6b3f7c", "#e58f65"], dark: true },
     forest3:  { name: "غابة ثلاثي", accent: "#e6d28a", g: ["#04201a", "#0e4a3a", "#2f7d5f"], dark: true },
@@ -896,6 +900,7 @@ window.NOOR_CONFIG = {
       <button class="tab" data-tab="temp" type="button">الحرارة</button>
       <button class="tab" data-tab="explain" type="button">كيف تُحسب المواقيت؟</button>
       <button class="tab" data-tab="gen" type="button">عام ونسخ احتياطي</button>
+      <button class="tab" data-tab="ver" type="button">سجل الإصدارات</button>
     </div>
 
     <!-- ١) الموقع والحساب -->
@@ -1195,10 +1200,12 @@ window.NOOR_CONFIG = {
     <!-- ٨) شرح الحساب -->
     <div class="spanel" data-panel="explain" id="explainPanel"></div>
 
+    <div class="spanel" data-panel="ver" id="verPanel"></div>
+
     <!-- ٩) عام -->
     <div class="spanel" data-panel="gen">
       <h3>نسخ احتياطي</h3>
-      <p class="hint">إصدار «نُور» 1.4.1</p>
+      <p class="hint">إصدار «نُور» 1.5</p>
       <div class="row2">
         <button class="btn ghost" id="btnExport" type="button">⬇ تصدير الإعدادات (JSON)</button>
         <button class="btn ghost" id="btnImport" type="button">⬆ استيراد إعدادات</button>
@@ -1240,12 +1247,12 @@ window.NOOR_CONFIG = {
     mosqueName: "جامع حي السلام", mosqueSub: "إِنَّ ٱلصَّلَوٰةَ كَانَتۡ عَلَى ٱلۡمُؤۡمِنِينَ كِتَٰبٗا مَّوۡقُوتٗا",
     lat: 18.2465, lng: 42.5117, tz: 3, tzAuto: false, city: "أبها",
     method: "makkah", fajrAngle: 18.5, ishaAngle: 17, asrFactor: 1, adjust: [0, 0, 0, 0, 0, 0],
-    hijriAdj: 0, imsakOffset: 10,
+    migr: 1, hijriAdj: 0, imsakOffset: 10,
     manualOn: false, manual: ["", "", "", "", "", ""],
     iqama: [25, 20, 20, 10, 20], night: { on: false, afterIsha: 2, beforeFajr: 1, bright: 25 }, shuruqIqama: 15, shuruqScreen: true, shuruqSec: 30, adhanDur: 3, showIqamaScreen: true, iqamaMsgSec: 25, iqamaInline: true, iqamaFullSec: 120,
     jumua: "", jumuaIqama: 20,
     salat: { black: true, dur: 10, countdown: true, bright: 45 },
-    adhkar: { on: true, mode: "scroll", scrollSpd: 3, perPage: 5, afterMin: 10, maxMin: 5, slideSec: 20, prayers: [true, true, true, true, true], morningEvening: true },
+    adhkar: { on: true, mode: "scroll", scrollSpd: 0.5, perPage: 5, afterMin: 10, maxMin: 5, slideSec: 20, prayers: [true, true, true, true, true], morningEvening: true },
     sound: {
       on: true, volume: 80,
       adhan:     { on: true,  file: "adhan" },
@@ -1254,10 +1261,10 @@ window.NOOR_CONFIG = {
       preIqama:  { on: true,  min: 2,  file: "alert" },
       iqama:     { on: true,  file: "iqama" },
     },
-    bg: { mode: "gradient", solid: "#0b1026",
-          grad: { n: 2, c1: "#0b1026", c2: "#13204a", c3: "#1f3a73", angle: 160, radial: false },
+    bg: { mode: "gradient", solid: "#ffffff",
+          grad: { n: 2, c1: "#ffffff", c2: "#f1efe8", c3: "#1f3a73", angle: 160, radial: false },
           marble: "marble-black", img: "", imgData: "", dim: 0, pattern: "none", patternOp: 12 },
-    accent: "#e0b84c", textMode: "auto", theme: "midnight",
+    accent: "#7a5a14", textMode: "auto", theme: "white",
     ui: { stars: true, ornament: true, ring: true, panels: "glass" },
     fonts: { head: "pt", clock: "pt", ui: "cairo", quran: "amiri" },
     arabNum: false, showShuruq: true,
@@ -1315,7 +1322,17 @@ window.NOOR_CONFIG = {
     if (qp.get("nostore")) return;
     const raw = store.get();
     if (!raw) return;
-    try { mergeKnown(N.S, JSON.parse(raw)); } catch (e) { /* تجاهل التالف */ }
+    let needMig = false;
+    try { const sv = JSON.parse(raw); mergeKnown(N.S, sv); needMig = !(sv.migr >= 1); } catch (e) { /* تجاهل التالف */ }
+    if (needMig) {   // تحديث 1.5 (مرة واحدة): أدعية الشريط، الخلفية البيضاء، سرعة نزول الأذكار
+      const t = N.S.ticker, g = N.S.bg.grad;
+      ["اللهم اجزِ كل من بنى هذا المسجد وسعى فيه وأعان عليه خير الجزاء، واجعل ذلك في ميزان حسناته وصدقةً جاريةً له",
+       "اللهم احفظ بلادنا وبلاد المسلمين من كل سوء، وأدم علينا الأمن والإيمان والسلامة والإسلام",
+       "اللهم وفّق ولاة أمرنا لما تحب وترضى، وأعنهم على البر والتقوى، وارزقهم البطانة الصالحة"].forEach(m => { if (t.messages.indexOf(m) < 0) t.messages.push(m); });
+      N.S.theme = "white"; N.S.accent = "#7a5a14"; N.S.textMode = "auto"; N.S.bg.mode = "gradient"; N.S.bg.solid = "#ffffff";
+      g.n = 2; g.c1 = "#ffffff"; g.c2 = "#f1efe8";
+      N.S.adhkar.scrollSpd = 0.5; N.S.migr = 1; N.saveSettings();
+    }
     if (N.S.mosqueName === "جامع النور") N.S.mosqueName = "جامع حي السلام";
     if (N.S.mosqueSub === "حيّ على الصلاة، حيّ على الفلاح") N.S.mosqueSub = "إِنَّ ٱلصَّلَوٰةَ كَانَتۡ عَلَى ٱلۡمُؤۡمِنِينَ كِتَٰبٗا مَّوۡقُوتٗا";
   };
@@ -2727,5 +2744,6 @@ window.NOOR_CONFIG = {
   }
 })();
 </script>
+<script>(function(){var V=[["0.1", "النسخة الأولى (v1)", ["أول نموذج للبرنامج: ملف HTML واحد (نحو 74 كيلوبايت) لشاشة مواقيت الصلاة."]], ["0.2", "التقسيم إلى مجلد وملفات (v2)", ["تقسيم البرنامج إلى مجلد noor-screen: الصفحة والتنسيق وملفات المحرك والواجهة والصوت والإعدادات.", "حساب المواقيت داخل البرنامج دون إنترنت، ولوحة تحكم ⚙، وأصوات الأذان، وخلفيات رخامية.", "ملف مضغوط للنقل، ونسخة ملف واحد، ومثال حساس حرارة ESP32."]], ["0.3", "تحسين الواجهة (v3)", ["اسم المسجد في الوسط وآية المسجد بخط المصحف.", "بطاقة الصلاة التالية بإطار وخلفية بلون التمييز، والصلوات الماضية دون تعتيم.", "جدول الشهر بسطرين لكل يوم (الميلادي ثم الهجري)."]], ["0.4", "وضوح الخطوط (v4)", ["آية المسجد أكبر وأوضح.", "أوقات بطاقات الصلاة أكبر، وعناوين «الأذان» و«الإقامة» والفاصل أوضح.", "جدول الشهر في سطر واحد، والتاريخ الهجري بالأحمر."]], ["0.5", "جدول أعرض (v5)", ["الجدول وعمود التاريخ أعرض، والتواريخ تظهر مع السنة.", "تخفيف طفيف في حجم أوقات البطاقات."]], ["0.6", "إعادة توليد الملفات (v6)", ["إعادة بناء الملفات بلا فرق ظاهر في الواجهة عن النسخة السابقة."]], ["0.7", "الثواني وعدّاد الإقامة (v7)", ["الثواني فوق الساعة وأرقام الساعة أكبر.", "عدّاد الإقامة يملأ بطاقة الآيات بخلفية تقدّم متحرّكة.", "نسخة الملف الواحد تعمل على تلفاز أندرويد."]], ["1.0", "أرشفة في GitHub", ["رفع نسخة الملف الواحد (v7) إلى المستودع مع README بطريقة الاستخدام وإعلان الوقف وترخيص الاستخدام غير التجاري."]], ["1.1", "تحديث كبير", ["بطاقات المواقيت: أحجام أكبر، المدة بين الأذان والإقامة بجانب الاسم، وعلامة ص/م بعد الوقت.", "إقامة للشروق (15 دقيقة افتراضياً) وشاشة حديثي النهي عن الصلاة مع عدّاد.", "قوائم منسدلة لوقت الإقامة لكل صلاة بدل حقل واحد.", "شاشة ليلية سوداء بالساعة فقط (حماية الشاشة).", "اليوم والتاريخ أكبر بفواصل، والثواني أكبر، والحرارة داخل الساعة، وجدول الشهر أضيق.", "عناوين بخط غليظ موحّد، وأذكار بصفحات متتابعة."]], ["1.2", "بطاقات الأذكار", ["الأذكار على بطاقات: بطاقة عنوان ثابتة مميّزة وبطاقات بخط كبير، وصفحات متتابعة.", "الساعة في أعلى صفحة الأذكار بعد التاريخ بفاصل |.", "تسمية الإصدارات ووسوم GitHub كنقاط رجوع."]], ["1.3", "نزول الأذكار", ["طريقة «تنزل من فوق لتحت» للأذكار بسرعة قابلة للتعديل، مع بقاء البطاقات كخيار.", "1.3.1: الثواني فوق الساعة بحجم أكبر. 1.3.2: نزول أبطأ."]], ["1.4", "الخط والأدعية", ["أداة دمج خط PT Bold Heading داخل نسخة التلفاز.", "أدعية جديدة في الشريط الإخباري (بناء المسجد، البلاد، ولاة الأمر).", "1.4.1: الساعة أكبر، وشريط تمرير الإعدادات أعرض للتحكم بالريموت."]], ["1.5", "إعدادات افتراضية جديدة وسجل الإصدارات", ["الخلفية البيضاء افتراضية، وسرعة نزول الأذكار 0.5.", "إضافة أدعية الشريط وهذه الإعدادات تلقائياً مرة واحدة للأجهزة التي حفظت إعدادات قديمة.", "تبويب «سجل الإصدارات» في الإعدادات."]]];var p=document.getElementById('verPanel');if(!p)return;var h='<h3>مراحل تطوّر «نُور»</h3><p class="hint">من أقدم نسخة محفوظة إلى الأحدث.</p>';V.forEach(function(v){h+='<div class="vitem"><div class="vhead"><b>'+v[0]+'</b> — '+v[1]+'</div><ul>'+v[2].map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul></div>'});p.innerHTML=h})();</script>
 </body>
 </html>
