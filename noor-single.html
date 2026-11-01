@@ -104,14 +104,14 @@ body.no-hadith .hadith,body.no-table .monthtbl{display:none}
 .ring .hand.s{stroke:var(--accent);opacity:.55}
 body.no-ring .ring .track,body.no-ring .ring .prog{display:none}
 body:not(.analog) .ring .hands{display:none}
-.clock-inner{position:static;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:84%}
-.digital{position:static;font-family:var(--font-clock);font-weight:900;font-size:calc(var(--ring)*.25);line-height:1;direction:ltr;white-space:nowrap;
+.clock-inner{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:84%}
+.digital{position:relative;font-family:var(--font-clock);font-weight:900;font-size:calc(var(--ring)*.25);line-height:1;direction:ltr;white-space:nowrap;
   text-shadow:0 .03em .18em rgba(0,0,0,.35)}
 /* كل رقم في خلية ثابتة العرض: لا يتحرك شيء مهما تغيّرت الأرقام أو الخط */
 .dg,.cl{font-style:normal}
 .dg{display:inline-block;width:.64em;text-align:center}
 .cl{display:inline-block;width:.3em;text-align:center;opacity:.9}
-.sec{position:absolute;top:56%;left:12%;transform:translateY(-50%);font-size:.38em;font-weight:900;line-height:1.1;color:var(--accent);display:block;direction:ltr;white-space:nowrap}
+.sec{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:.58em;font-weight:900;line-height:1;color:var(--accent);display:block;margin-bottom:-.12em}
 .sec .dg{width:.62em}
 body.no-sec .sec{display:none}
 .ampm{font-size:calc(var(--ring)*.045);color:var(--ink-dim);margin-top:calc(var(--ring)*.012);min-height:1.3em;font-weight:600}
@@ -1194,7 +1194,7 @@ window.NOOR_CONFIG = {
     <!-- ٩) عام -->
     <div class="spanel" data-panel="gen">
       <h3>نسخ احتياطي</h3>
-      <p class="hint">إصدار «نُور» 1.3</p>
+      <p class="hint">إصدار «نُور» 1.3.1</p>
       <div class="row2">
         <button class="btn ghost" id="btnExport" type="button">⬇ تصدير الإعدادات (JSON)</button>
         <button class="btn ghost" id="btnImport" type="button">⬆ استيراد إعدادات</button>
