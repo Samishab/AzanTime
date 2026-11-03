@@ -91,6 +91,16 @@ body.no-table .content{grid-template-columns:auto minmax(0,1fr);grid-template-ar
 body.no-hadith .content{grid-template-columns:minmax(0,1fr) calc(var(--w1)*27.8);grid-template-areas:"clock table" "prayers table"}
 body.no-hadith.no-table .content{grid-template-columns:minmax(0,1fr);grid-template-areas:"clock" "prayers"}
 body.no-hadith .hadith,body.no-table .monthtbl{display:none}
+body.tbl-in .content{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"clock hadith" "prayers prayers"}
+body.tbl-in .hadith{display:grid;grid-template-columns:minmax(0,1fr) 40%;align-items:stretch;padding:0}
+body.tbl-in .hadith .hbox{grid-column:1;align-self:center;padding:calc(var(--u)*2.4) calc(var(--u)*2.6);min-width:0}
+body.tbl-in .hadith .ramadan-bar{grid-column:1}
+body.tbl-in .hadith .monthtbl{grid-area:1/2/span 3/3;margin:calc(var(--u)*1.1);min-width:0;background:var(--panel-solid)}
+body.tbl-in .hadith.iq-on .hd-iq{inset-inline-end:40%}
+body.tbl-in .mt-head,body.tbl-in .mt-row{grid-template-columns:7.2em repeat(6,1fr)}
+body.tbl-in .mt-row{font-size:calc(var(--u)*1.75)}
+body.tbl-in .mt-row .d{font-size:.86em;gap:.2em}
+body.tbl-in .mt-head{font-size:calc(var(--u)*1.45);height:calc(var(--u)*3.4)}
 
 /* ---------- الساعة: دائرة ثابتة المقاس ---------- */
 .clock-col{grid-area:clock;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*1);min-height:0}
@@ -104,7 +114,7 @@ body.no-hadith .hadith,body.no-table .monthtbl{display:none}
 .ring .hand.s{stroke:var(--accent);opacity:.55}
 body.no-ring .ring .track,body.no-ring .ring .prog{display:none}
 body:not(.analog) .ring .hands{display:none}
-.clock-inner{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:84%}
+.clock-inner{position:static;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:84%}
 .digital{position:relative;font-family:var(--font-clock);font-weight:900;font-size:calc(var(--ring)*.25);line-height:1;direction:ltr;white-space:nowrap;
   text-shadow:0 .03em .18em rgba(0,0,0,.35)}
 /* كل رقم في خلية ثابتة العرض: لا يتحرك شيء مهما تغيّرت الأرقام أو الخط */
@@ -114,10 +124,10 @@ body:not(.analog) .ring .hands{display:none}
 .sec{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:.58em;font-weight:900;line-height:1;color:var(--accent);display:block;margin-bottom:-.12em}
 .sec .dg{width:.62em}
 body.no-sec .sec{display:none}
-.ampm{font-size:calc(var(--ring)*.045);color:var(--ink-dim);margin-top:calc(var(--ring)*.012);min-height:1.3em;font-weight:600}
+.ampm{position:absolute;top:56%;left:12%;transform:translateY(-50%);font-size:calc(var(--ring)*.085);line-height:1;color:var(--accent);font-weight:900;z-index:2}
 .next-box{margin-top:calc(var(--ring)*.035);display:flex;flex-direction:column;align-items:center;gap:calc(var(--ring)*.004)}
-.next-label{font-size:calc(var(--ring)*.036);color:var(--ink-dim)}
-.next-name{font-family:var(--font-head);font-size:calc(var(--ring)*.085);color:var(--accent);line-height:1.1}
+.next-label{font-size:calc(var(--ring)*.05);color:var(--ink-dim)}
+.next-name{font-family:var(--font-head);font-size:calc(var(--ring)*.098);color:var(--accent);line-height:1.1}
 .next-count{font-family:var(--font-clock);font-weight:900;font-size:calc(var(--ring)*.1);direction:ltr;line-height:1.1}
 .next-count.warn{color:var(--alert);animation:pulse 1s infinite}
 .temp{display:inline-flex;align-items:center;gap:.5em;font-family:var(--font-clock);font-size:calc(var(--u)*2.3);
@@ -166,7 +176,7 @@ body.no-ornament .hadith::before{display:none}
   border-radius:calc(var(--u)*1.6);overflow:hidden;transition:opacity var(--fade) ease}
 .mt-head,.mt-row{display:grid;grid-template-columns:14.2em repeat(6,1fr);align-items:center;text-align:center;padding:0 calc(var(--u)*.5);column-gap:calc(var(--u)*.15)}
 .mt-head{flex:none;background:var(--accent);color:var(--on-accent);font-weight:900;font-size:calc(var(--u)*1.3);height:calc(var(--u)*3.1)}
-.mt-body{flex:1;min-height:0;container-type:size;display:grid;grid-template-rows:repeat(30,minmax(0,1fr))}
+.mt-body{flex:1;min-height:0;container-type:size;display:grid;grid-template-rows:repeat(var(--mtrows,30),minmax(0,1fr))}
 body.vertical .mt-body{grid-template-rows:none;grid-auto-rows:calc(var(--u)*3.3);align-content:start}
 .mt-row{font-size:calc(var(--u)*1.42);border-bottom:1px solid var(--panel-line);min-height:0;overflow:hidden}
 .mt-row:last-child{border-bottom:0}
@@ -192,8 +202,7 @@ body.no-mt-hijri .mt-row .d .dsw{display:inline}
 .ticker{display:flex;align-items:center;height:calc(var(--u)*4.6);margin:0 calc(var(--u)*-2);background:rgba(0,0,0,.28);
   border-top:1px solid var(--panel-line);overflow:hidden;white-space:nowrap}
 body.no-ticker .ticker{display:none}
-.ticker .badge{flex:none;background:var(--accent);color:var(--on-accent);font-weight:900;height:100%;display:flex;align-items:center;
-  padding:0 calc(var(--u)*2);font-size:calc(var(--u)*1.7);z-index:1}
+body[data-light="1"] .ticker{background:var(--accent-soft)}
 .ticker .scroll{display:inline-block;font-size:calc(var(--u)*2.4);font-weight:500;padding-inline-start:100%;animation:tickmove linear infinite;will-change:transform}
 @keyframes tickmove{from{transform:translateX(0)}to{transform:translateX(100%)}}
 .ticker.fade .scroll{animation:none;padding:0;flex:1;text-align:center;overflow:hidden;text-overflow:ellipsis;transition:opacity var(--fade) ease}
@@ -205,14 +214,14 @@ body.no-ticker .ticker{display:none}
 .ov.show{display:flex;animation:ovin .6s ease}
 @keyframes ovin{from{opacity:0}to{opacity:1}}
 #ovGen,#ovAdhkar,#ovImsak{background:var(--ov-bg,#0b1026)}
-.ov-kicker{font-size:calc(var(--u)*2.8);color:var(--ink-dim)}
+.ov-kicker{font-size:calc(var(--u)*3.8);color:var(--ink-dim)}
 .ov-title{font-family:var(--font-head);font-size:calc(var(--u)*10.5);color:var(--accent);line-height:1.25;text-shadow:0 .05em .4em rgba(0,0,0,.5)}
 .ov-big{font-family:var(--font-clock);font-weight:900;font-size:calc(var(--u)*16);direction:ltr;line-height:1.05}
 .ov-big.warn{color:var(--alert);animation:pulse 1s infinite}
-.ov-times{display:flex;gap:calc(var(--u)*5);font-size:calc(var(--u)*3);color:var(--ink-dim);direction:rtl}
+.ov-times{display:flex;gap:calc(var(--u)*6);font-size:calc(var(--u)*4.6);color:var(--ink-dim);direction:rtl}
 .ov-times span{display:inline-flex;gap:.5em;align-items:baseline}
 .ov-times b{color:var(--ink);font-family:var(--font-clock);direction:ltr;display:inline-block;margin-inline-start:.4em}
-.ov-sub{font-family:var(--font-quran);font-size:calc(var(--u)*3.2);line-height:2;max-width:75%;color:var(--ink)}
+.ov-sub{font-family:var(--font-quran);font-size:calc(var(--u)*4.4);line-height:2;max-width:75%;color:var(--ink)}
 .ov-phone{display:flex;align-items:center;gap:calc(var(--u)*1.4);font-size:calc(var(--u)*2.8);color:var(--alert);font-weight:700}
 .ov-phone svg{width:calc(var(--u)*5);height:auto}
 
@@ -287,9 +296,10 @@ body.ak-mode .hadith,body.ak-mode .monthtbl,body.ak-mode .prayers{visibility:hid
 .iq-count{font-family:var(--font-clock);font-weight:900;direction:ltr;line-height:1;color:var(--accent);white-space:nowrap;
   font-size:min(calc(86cqw / var(--em,2.8)),42cqh);text-shadow:0 .04em .25em rgba(0,0,0,.4)}
 .iq-count.warn{color:var(--alert);animation:pulse 1s infinite}
-.iq-times{display:flex;gap:4cqw;font-size:min(5cqw,6.5cqh);color:var(--ink);direction:rtl;font-weight:700}
+.iq-times{display:flex;gap:3cqw;font-size:min(6.2cqw,9cqh);color:var(--ink);direction:rtl;font-weight:700}
 .iq-times span{display:inline-flex;gap:.4em;align-items:baseline}
-.iq-times b{font-family:var(--font-clock);direction:ltr}
+.iq-times b{font-family:var(--font-clock);direction:ltr;white-space:nowrap}
+.ap2{display:inline-block;unicode-bidi:isolate;direction:rtl;font-style:normal;font-size:.62em;margin-inline-end:.2em}
 
 /* الشاشات الكبيرة تترك الساعة والتاريخ ظاهرين دائماً */
 #ovGen{inset:auto;border:1px solid var(--panel-line);border-radius:calc(var(--u)*2.2);z-index:40}
@@ -840,7 +850,7 @@ window.NOOR_CONFIG = {
       </aside>
     </div>
 
-    <div class="ticker" id="ticker"><div class="badge" id="tickBadge">إعلانات</div><div class="scroll" id="tickText"></div></div>
+    <div class="ticker" id="ticker"><div class="scroll" id="tickText"></div></div>
   </div>
 
   <!-- أذان / عدّاد الإقامة / أقيموا الصلاة -->
@@ -1100,6 +1110,7 @@ window.NOOR_CONFIG = {
       <label class="check"><input type="checkbox" data-k="ui.ornament"><span>علامة الزخرفة على بطاقة الحديث</span></label>
       <label class="check"><input type="checkbox" data-k="ui.ring"><span>الحلقة الذهبية حول الساعة</span></label>
       <div class="field"><label>شكل البطاقات</label>
+        <select data-k="ui.cardTone"><option value="auto">لون البطاقات: متجانس مع الخلفية</option><option value="white">لون البطاقات: أبيض زجاجي (كما كان)</option></select>
         <select data-k="ui.panels"><option value="glass">شفافة بإطار</option><option value="flat">مصمتة داكنة</option><option value="none">بلا خلفية ولا إطار (الأبسط)</option></select></div>
 
       <h3>الخطوط</h3>
@@ -1127,6 +1138,10 @@ window.NOOR_CONFIG = {
       <h3>أقسام الشاشة</h3>
       <label class="check"><input type="checkbox" data-k="layout.hadith"><span>بطاقة الآية والحديث</span></label>
       <label class="check"><input type="checkbox" data-k="layout.table"><span>جدول مواقيت الشهر (أقصى اليسار)</span></label>
+      <div class="row2">
+        <div class="field"><label>مكان جدول الشهر</label><select data-k="layout.tablePos"><option value="side">أقصى اليسار (كما هو)</option><option value="inside">داخل مستطيل الآية والعدّاد (آخر ثلث)</option></select></div>
+        <div class="field"><label>عدد أيام الجدول داخل المستطيل (من أمس)</label><select data-t="num" data-k="layout.tableDays"><option value="7">أسبوع</option><option value="10">١٠ أيام</option><option value="14">أسبوعان</option></select></div>
+      </div>
       <label class="check"><input type="checkbox" data-k="layout.tableHijri"><span>إظهار التاريخ الهجري في الجدول</span></label>
       <label class="check"><input type="checkbox" data-k="ticker.on"><span>شريط الإعلانات</span></label>
 
@@ -1205,7 +1220,7 @@ window.NOOR_CONFIG = {
     <!-- ٩) عام -->
     <div class="spanel" data-panel="gen">
       <h3>نسخ احتياطي</h3>
-      <p class="hint">إصدار «نُور» 1.5.1</p>
+      <p class="hint">إصدار «نُور» 1.6</p>
       <div class="row2">
         <button class="btn ghost" id="btnExport" type="button">⬇ تصدير الإعدادات (JSON)</button>
         <button class="btn ghost" id="btnImport" type="button">⬆ استيراد إعدادات</button>
@@ -1265,11 +1280,11 @@ window.NOOR_CONFIG = {
           grad: { n: 2, c1: "#ffffff", c2: "#f1efe8", c3: "#1f3a73", angle: 160, radial: false },
           marble: "marble-black", img: "", imgData: "", dim: 0, pattern: "none", patternOp: 12 },
     accent: "#7a5a14", textMode: "auto", theme: "white",
-    ui: { stars: true, ornament: true, ring: true, panels: "glass" },
+    ui: { stars: true, ornament: true, ring: true, panels: "glass", cardTone: "auto" },
     fonts: { head: "pt", clock: "pt", ui: "cairo", quran: "amiri" },
     arabNum: false, showShuruq: true,
     clock: { sec: true, h24: false, analog: false },
-    layout: { hadith: true, table: true, tableHijri: true, rotate: "0" },
+    layout: { hadith: true, table: true, tableHijri: true, tablePos: "side", tableDays: 14, rotate: "0" },
     hadith: { sec: 20, fadeMs: 1200, order: "seq" },
     quotes: null,                       // null = القائمة الأصلية من content.js
     ticker: { on: true, mode: "scroll", speed: 240, fadeSec: 12,
@@ -1926,8 +1941,18 @@ window.NOOR_CONFIG = {
     r.setProperty("--ink", ink); r.setProperty("--ink-dim", rgba(ink, 0.64));
     r.setProperty("--accent", acc); r.setProperty("--accent-soft", rgba(acc, 0.17)); r.setProperty("--accent-faint", rgba(acc, 0.09));
     r.setProperty("--panel-line", rgba(acc, light ? 0.28 : 0.42));
-    r.setProperty("--panel", light ? "rgba(255,255,255,.055)" : "rgba(255,255,255,.55)");
-    r.setProperty("--panel-solid", light ? "rgba(0,0,0,.30)" : "rgba(255,255,255,.62)");
+    let panel = light ? "rgba(255,255,255,.055)" : "rgba(255,255,255,.55)", panelSolid = light ? "rgba(0,0,0,.30)" : "rgba(255,255,255,.62)";
+    if (!light && S.ui.cardTone !== "white" && (b.mode === "gradient" || b.mode === "solid")) {
+      // خلفية فاتحة: بطاقات من لون الخلفية نفسه أغمق قليلاً مع مسحة من لون التمييز
+      const hx = h => { h = (h || "#000").replace("#", ""); if (h.length === 3) h = h.split("").map(c => c + c).join(""); const n = parseInt(h, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
+      const mix = (a, c, t) => a.map((v, i) => Math.round(v + (c[i] - v) * t));
+      const cs = (b.mode === "solid" ? [b.solid] : [b.grad.c1, b.grad.c2]).map(hx);
+      const avg = [0, 1, 2].map(i => Math.round(cs.reduce((a, c) => a + c[i], 0) / cs.length));
+      const base = mix(mix(avg, [0, 0, 0], 0.07), hx(acc), 0.10).join(",");
+      panel = `rgba(${base},.82)`; panelSolid = `rgb(${base})`;
+    }
+    r.setProperty("--panel", panel);
+    r.setProperty("--panel-solid", panelSolid);
     r.setProperty("--on-accent", lum(acc) > 0.45 ? "#1a1405" : "#ffffff");
     // التعتيم
     const dim = (b.dim || 0) / 100;
@@ -1974,7 +1999,7 @@ window.NOOR_CONFIG = {
     const S = N.S, H = now.getHours(), M = now.getMinutes(), Sx = now.getSeconds();
     const h = S.clock.h24 ? H : (H % 12 || 12);
     setDigits(digs, pad(h) + pad(M) + pad(Sx));
-    $("ampm").textContent = S.clock.h24 ? "" : (H >= 12 ? "مساءً" : "صباحاً");
+    $("ampm").textContent = S.clock.h24 ? "" : (H >= 12 ? "م" : "ص");
     if (S.clock.analog) {
       $("ahH").setAttribute("transform", `rotate(${(H % 12) * 30 + M * 0.5} 110 110)`);
       $("ahM").setAttribute("transform", `rotate(${M * 6 + Sx * 0.1} 110 110)`);
@@ -2034,19 +2059,31 @@ window.NOOR_CONFIG = {
   };
 
   /* ---------- جدول ٣٠ يوماً: أمس واليوم و٢٨ بعدها ---------- */
+  N.placeTable = function () {
+    const S = N.S, b = document.body, mt = $("monthTbl"), had = $("hadith"), cont = $("content");
+    if (!mt || !had || !cont) return;
+    const inside = !!(S.layout.table && S.layout.hadith && S.layout.tablePos === "inside" && !b.classList.contains("vertical") && !b.classList.contains("compact"));
+    b.classList.toggle("tbl-in", inside);
+    if (inside) { if (mt.parentNode !== had) had.appendChild(mt); } else if (mt.parentNode !== cont) cont.appendChild(mt);
+    N.tblInside = inside; N.tblDays = inside ? Math.max(5, Math.min(30, +S.layout.tableDays || 14)) : 30;
+    $("mtBody").style.setProperty("--mtrows", N.tblDays);
+  };
+  const _layoutStage = N.layoutStage;
+  N.layoutStage = function () { _layoutStage.apply(this, arguments); N.placeTable(); };
   N.renderMonth = function () {
+    N.placeTable();
     const S = N.S, today = N.now();
     const heads = ["التاريخ", "الفجر", "الشروق", "الظهر", "العصر", "المغرب", "العشاء"];
     $("mtHead").innerHTML = heads.map(h => `<span>${h}</span>`).join("");
     const wd = new Intl.DateTimeFormat("ar", { weekday: "long" });
     let hf; try { hf = new Intl.DateTimeFormat("ar-SA-u-ca-islamic-umalqura-nu-" + (S.arabNum ? "arab" : "latn"), { day: "numeric", month: "long" }); } catch (e) { hf = { formatToParts: () => [] }; }
     let html = "";
-    for (let i = -1; i <= 28; i++) {
+    for (let i = -1; i <= N.tblDays - 2; i++) {
       const d = N.addDays(today, i), m = N.minutesForDate(d), hp = N.hijriParts(d);
       const cls = ["mt-row"]; if (i < 0) cls.push("past"); if (i === 0) cls.push("today"); if (d.getDay() === 5) cls.push("fri");
-      const dd = N.num(pad(d.getDate()) + "/" + pad(d.getMonth() + 1) + "/" + d.getFullYear());
+      const dd = N.num(pad(d.getDate()) + "/" + pad(d.getMonth() + 1) + (N.tblInside ? "" : "/" + d.getFullYear()));
       const hh = N.num(hp.day + "/" + hp.month + "/" + hp.year);
-      html += `<div class="${cls.join(" ")}"><span class="d"><b>${wd.format(d)}</b><i class="dsep dsw">|</i><span class="dd"><span class="dh"><bdi dir="ltr">${hh}</bdi> هـ</span><i class="dsep">|</i><span class="dg2"><bdi dir="ltr">${dd}</bdi> م</span></span></span>` +
+      html += `<div class="${cls.join(" ")}"><span class="d"><b>${wd.format(d)}</b><i class="dsep dsw">|</i><span class="dd">${N.tblInside ? "" : `<span class="dh"><bdi dir="ltr">${hh}</bdi> هـ</span><i class="dsep">|</i>`}<span class="dg2"><bdi dir="ltr">${dd}</bdi>${N.tblInside ? "" : " م"}</span></span></span>` +
         N.KEYS.map(k => `<span class="t" data-k="${k}">${N.fmtMin(m[k]).t}</span>`).join("") + "</div>";
     }
     $("mtBody").innerHTML = html;
@@ -2251,7 +2288,8 @@ window.NOOR_CONFIG = {
   ];
   const showOv = id => OVS.forEach(x => $(x).classList.toggle("show", x === id));
   const DUA = "اللهم ربَّ هذه الدعوة التامة، والصلاة القائمة، آتِ محمداً الوسيلة والفضيلة، وابعثه مقاماً محموداً الذي وعدته";
-  const timesLine = p => `<span>الأذان<b>${N.fmtMin(p.min).t} ${N.fmtMin(p.min).ap}</b></span><span>الإقامة<b>${N.fmtMin(p.min + p.iqamaMin).t} ${N.fmtMin(p.min + p.iqamaMin).ap}</b></span>`;
+  const tmk = m => { const f = N.fmtMin(m); return (f.ap ? `<i class="ap2">${f.ap}</i>` : "") + f.t; };
+  const timesLine = p => `<span>الأذان<b>${tmk(p.min)}</b></span><span>الإقامة<b>${tmk(p.min + p.iqamaMin)}</b></span>`;
   const gen = (kicker, title, big, sub, phone, warn, times) => {
     $("ovKicker").textContent = kicker; $("ovTitle").textContent = title; $("ovBig").textContent = big;
     $("ovBig").classList.toggle("warn", !!warn); $("ovBig").style.display = big ? "" : "none";
@@ -2744,6 +2782,6 @@ window.NOOR_CONFIG = {
   }
 })();
 </script>
-<script>(function(){var V=[["0.1", "النسخة الأولى (v1)", ["أول نموذج للبرنامج: ملف HTML واحد (نحو 74 كيلوبايت) لشاشة مواقيت الصلاة."]], ["0.2", "التقسيم إلى مجلد وملفات (v2)", ["تقسيم البرنامج إلى مجلد noor-screen: الصفحة والتنسيق وملفات المحرك والواجهة والصوت والإعدادات.", "حساب المواقيت داخل البرنامج دون إنترنت، ولوحة تحكم ⚙، وأصوات الأذان، وخلفيات رخامية.", "ملف مضغوط للنقل، ونسخة ملف واحد، ومثال حساس حرارة ESP32."]], ["0.3", "تحسين الواجهة (v3)", ["اسم المسجد في الوسط وآية المسجد بخط المصحف.", "بطاقة الصلاة التالية بإطار وخلفية بلون التمييز، والصلوات الماضية دون تعتيم.", "جدول الشهر بسطرين لكل يوم (الميلادي ثم الهجري)."]], ["0.4", "وضوح الخطوط (v4)", ["آية المسجد أكبر وأوضح.", "أوقات بطاقات الصلاة أكبر، وعناوين «الأذان» و«الإقامة» والفاصل أوضح.", "جدول الشهر في سطر واحد، والتاريخ الهجري بالأحمر."]], ["0.5", "جدول أعرض (v5)", ["الجدول وعمود التاريخ أعرض، والتواريخ تظهر مع السنة.", "تخفيف طفيف في حجم أوقات البطاقات."]], ["0.6", "إعادة توليد الملفات (v6)", ["إعادة بناء الملفات بلا فرق ظاهر في الواجهة عن النسخة السابقة."]], ["0.7", "الثواني وعدّاد الإقامة (v7)", ["الثواني فوق الساعة وأرقام الساعة أكبر.", "عدّاد الإقامة يملأ بطاقة الآيات بخلفية تقدّم متحرّكة.", "نسخة الملف الواحد تعمل على تلفاز أندرويد."]], ["1.0", "أرشفة في GitHub", ["رفع نسخة الملف الواحد (v7) إلى المستودع مع README بطريقة الاستخدام وإعلان الوقف وترخيص الاستخدام غير التجاري."]], ["1.1", "تحديث كبير", ["بطاقات المواقيت: أحجام أكبر، المدة بين الأذان والإقامة بجانب الاسم، وعلامة ص/م بعد الوقت.", "إقامة للشروق (15 دقيقة افتراضياً) وشاشة حديثي النهي عن الصلاة مع عدّاد.", "قوائم منسدلة لوقت الإقامة لكل صلاة بدل حقل واحد.", "شاشة ليلية سوداء بالساعة فقط (حماية الشاشة).", "اليوم والتاريخ أكبر بفواصل، والثواني أكبر، والحرارة داخل الساعة، وجدول الشهر أضيق.", "عناوين بخط غليظ موحّد، وأذكار بصفحات متتابعة."]], ["1.2", "بطاقات الأذكار", ["الأذكار على بطاقات: بطاقة عنوان ثابتة مميّزة وبطاقات بخط كبير، وصفحات متتابعة.", "الساعة في أعلى صفحة الأذكار بعد التاريخ بفاصل |.", "تسمية الإصدارات ووسوم GitHub كنقاط رجوع."]], ["1.3", "نزول الأذكار", ["طريقة «تنزل من فوق لتحت» للأذكار بسرعة قابلة للتعديل، مع بقاء البطاقات كخيار.", "1.3.1: الثواني فوق الساعة بحجم أكبر. 1.3.2: نزول أبطأ."]], ["1.4", "الخط والأدعية", ["أداة دمج خط PT Bold Heading داخل نسخة التلفاز.", "أدعية جديدة في الشريط الإخباري (بناء المسجد، البلاد، ولاة الأمر).", "1.4.1: الساعة أكبر، وشريط تمرير الإعدادات أعرض للتحكم بالريموت."]], ["1.5", "إعدادات افتراضية جديدة وسجل الإصدارات", ["الخلفية البيضاء افتراضية، وسرعة نزول الأذكار 0.5.", "إضافة أدعية الشريط وهذه الإعدادات تلقائياً مرة واحدة للأجهزة التي حفظت إعدادات قديمة.", "تبويب «سجل الإصدارات» في الإعدادات."]]];var p=document.getElementById('verPanel');if(!p)return;var h='<h3>مراحل تطوّر «نُور»</h3><p class="hint">من أقدم نسخة محفوظة إلى الأحدث.</p>';V.forEach(function(v){h+='<div class="vitem"><div class="vhead"><bdi><b>'+v[0]+'</b></bdi> — '+v[1]+'</div><ul>'+v[2].map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul></div>'});p.innerHTML=h})();</script>
+<script>(function(){var V=[["0.1", "النسخة الأولى (v1)", ["أول نموذج للبرنامج: ملف HTML واحد (نحو 74 كيلوبايت) لشاشة مواقيت الصلاة."]], ["0.2", "التقسيم إلى مجلد وملفات (v2)", ["تقسيم البرنامج إلى مجلد noor-screen: الصفحة والتنسيق وملفات المحرك والواجهة والصوت والإعدادات.", "حساب المواقيت داخل البرنامج دون إنترنت، ولوحة تحكم ⚙، وأصوات الأذان، وخلفيات رخامية.", "ملف مضغوط للنقل، ونسخة ملف واحد، ومثال حساس حرارة ESP32."]], ["0.3", "تحسين الواجهة (v3)", ["اسم المسجد في الوسط وآية المسجد بخط المصحف.", "بطاقة الصلاة التالية بإطار وخلفية بلون التمييز، والصلوات الماضية دون تعتيم.", "جدول الشهر بسطرين لكل يوم (الميلادي ثم الهجري)."]], ["0.4", "وضوح الخطوط (v4)", ["آية المسجد أكبر وأوضح.", "أوقات بطاقات الصلاة أكبر، وعناوين «الأذان» و«الإقامة» والفاصل أوضح.", "جدول الشهر في سطر واحد، والتاريخ الهجري بالأحمر."]], ["0.5", "جدول أعرض (v5)", ["الجدول وعمود التاريخ أعرض، والتواريخ تظهر مع السنة.", "تخفيف طفيف في حجم أوقات البطاقات."]], ["0.6", "إعادة توليد الملفات (v6)", ["إعادة بناء الملفات بلا فرق ظاهر في الواجهة عن النسخة السابقة."]], ["0.7", "الثواني وعدّاد الإقامة (v7)", ["الثواني فوق الساعة وأرقام الساعة أكبر.", "عدّاد الإقامة يملأ بطاقة الآيات بخلفية تقدّم متحرّكة.", "نسخة الملف الواحد تعمل على تلفاز أندرويد."]], ["1.0", "أرشفة في GitHub", ["رفع نسخة الملف الواحد (v7) إلى المستودع مع README بطريقة الاستخدام وإعلان الوقف وترخيص الاستخدام غير التجاري."]], ["1.1", "تحديث كبير", ["بطاقات المواقيت: أحجام أكبر، المدة بين الأذان والإقامة بجانب الاسم، وعلامة ص/م بعد الوقت.", "إقامة للشروق (15 دقيقة افتراضياً) وشاشة حديثي النهي عن الصلاة مع عدّاد.", "قوائم منسدلة لوقت الإقامة لكل صلاة بدل حقل واحد.", "شاشة ليلية سوداء بالساعة فقط (حماية الشاشة).", "اليوم والتاريخ أكبر بفواصل، والثواني أكبر، والحرارة داخل الساعة، وجدول الشهر أضيق.", "عناوين بخط غليظ موحّد، وأذكار بصفحات متتابعة."]], ["1.2", "بطاقات الأذكار", ["الأذكار على بطاقات: بطاقة عنوان ثابتة مميّزة وبطاقات بخط كبير، وصفحات متتابعة.", "الساعة في أعلى صفحة الأذكار بعد التاريخ بفاصل |.", "تسمية الإصدارات ووسوم GitHub كنقاط رجوع."]], ["1.3", "نزول الأذكار", ["طريقة «تنزل من فوق لتحت» للأذكار بسرعة قابلة للتعديل، مع بقاء البطاقات كخيار.", "1.3.1: الثواني فوق الساعة بحجم أكبر. 1.3.2: نزول أبطأ."]], ["1.4", "الخط والأدعية", ["أداة دمج خط PT Bold Heading داخل نسخة التلفاز.", "أدعية جديدة في الشريط الإخباري (بناء المسجد، البلاد، ولاة الأمر).", "1.4.1: الساعة أكبر، وشريط تمرير الإعدادات أعرض للتحكم بالريموت."]], ["1.5", "إعدادات افتراضية جديدة وسجل الإصدارات", ["الخلفية البيضاء افتراضية، وسرعة نزول الأذكار 0.5.", "إضافة أدعية الشريط وهذه الإعدادات تلقائياً مرة واحدة للأجهزة التي حفظت إعدادات قديمة.", "تبويب «سجل الإصدارات» في الإعدادات."]],["1.6","البطاقات وجدول الشهر",["آلية لون البطاقات (متجانس مع الخلفية افتراضياً)، فتبدو بطاقات الرمل والأبيض منسجمة مع الخلفية بدل البياض.","شريط الإعلانات شريط فقط بلا كلمة «إعلانات».","جدول الشهر يمكن وضعه داخل مستطيل الآية والعدّاد في آخر ثلث منه، بعدد أيام يُحدَّد من الإعدادات (أسبوع أو ١٠ أيام أو أسبوعان).","نصوص شاشات الإقامة والأذان وما تحت الساعة أكبر.","علامة ص/م مختصرة وأكبر بلون الثواني، على يسار الدائرة بمحاذاة الحرارة."]]];var p=document.getElementById('verPanel');if(!p)return;var h='<h3>مراحل تطوّر «نُور»</h3><p class="hint">من أقدم نسخة محفوظة إلى الأحدث.</p>';V.forEach(function(v){h+='<div class="vitem"><div class="vhead"><bdi><b>'+v[0]+'</b></bdi> — '+v[1]+'</div><ul>'+v[2].map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul></div>'});p.innerHTML=h})();</script>
 </body>
 </html>
