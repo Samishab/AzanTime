@@ -43,6 +43,7 @@ void handleTemp() {
 
 void setup() {
   Serial.begin(115200);
+  pinMode(ONE_WIRE_PIN, INPUT_PULLUP);   // مقاومة رفع داخلية احتياطية؛ الأفضل مع ذلك استعمال المقاومة 4.7 كيلو أوم
   sensors.begin();
   connectWifi();
   Serial.print("IP: ");
