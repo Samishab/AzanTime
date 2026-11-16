@@ -10,6 +10,15 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
+// الوضع: 1 = اللوحة تبث شبكة واي فاي خاصة بها (بلا راوتر)، والرابط في الشاشة: http://192.168.4.1/temp
+//        0 = اللوحة تتصل بشبكة الراوتر الموجودة (اكتب اسمها وكلمتها أدناه)
+#define BROADCAST_OWN_NETWORK 1
+
+// بيانات الشبكة التي تبثها اللوحة (الوضع 1): اتصل بها من شاشة الأندرويد. كلمة السر 8 أحرف على الأقل.
+const char* AP_NAME = "salam";
+const char* AP_PASS = "CHANGE_ME_12345";      // غيّرها إلى كلمتك قبل الرفع
+
+// بيانات شبكة الراوتر (الوضع 0)
 const char* WIFI_NAME = "YOUR_WIFI_NAME";      // اسم شبكة الواي فاي (2.4GHz فقط)
 const char* WIFI_PASS = "YOUR_WIFI_PASSWORD";  // كلمتها
 
@@ -22,6 +31,11 @@ float lastTemp = NAN;
 unsigned long lastRead = 0;
 
 void connectWifi() {
+#if BROADCAST_OWN_NETWORK
+  WiFi.mode(WIFI_AP);
+  WiFi.softAP(AP_NAME, AP_PASS);   // العنوان دائماً 192.168.4.1
+  return;
+#endif
   WiFi.mode(WIFI_STA);
   // لتثبيت العنوان (اختياري، غيّر الأرقام لتناسب شبكتك) أزل علامة التعليق عن السطرين:
   // IPAddress ip(192, 168, 1, 60), gw(192, 168, 1, 1), mask(255, 255, 255, 0);
@@ -47,14 +61,20 @@ void setup() {
   sensors.begin();
   connectWifi();
   Serial.print("IP: ");
+#if BROADCAST_OWN_NETWORK
+  Serial.println(WiFi.softAPIP());  // 192.168.4.1
+#else
   Serial.println(WiFi.localIP());   // اكتب هذا العنوان في إعدادات الشاشة
+#endif
   server.on("/temp", handleTemp);
   server.begin();
 }
 
 void loop() {
   server.handleClient();
+#if !BROADCAST_OWN_NETWORK
   if (WiFi.status() != WL_CONNECTED) connectWifi();
+#endif
   if (lastRead == 0 || millis() - lastRead > 5000) {
     lastRead = millis();
     sensors.requestTemperatures();
